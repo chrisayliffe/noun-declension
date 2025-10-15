@@ -513,7 +513,11 @@
             const verbIndex = parseInt(document.getElementById('verbSelect').value);
             const tense = document.getElementById('tenseSelect').value;
             const verb = VERB_DATA[verbIndex];
-            return verb[tense];
+            return {
+                tenseData: verb.tenses[tense],
+                pronouns: verb.ui.pronouns,
+                verbName: verb.verb
+            };
         }
 
         function switchMode(mode) {
