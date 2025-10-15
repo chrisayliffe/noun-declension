@@ -422,49 +422,77 @@
         const VERB_DATA = [
             {
                 "verb": "drekka",
-                "translation": "to drink",
-                "present": {
-                    "singular": {
-                        "no_article": {"Nf": "drekka", "Þf": "drekkju", "Þgf": "drekkju", "Ef": "drekkju"},
-                        "with_article": {"Nf": "drekkan", "Þf": "drekkjuna", "Þgf": "drekkjunni", "Ef": "drekkjunnar"}
+                "lemmas": ["drekka"],
+                "tenses": {
+                    "present": {
+                        "label": "Nútíð",
+                        "singular": {
+                            "1": "drekk",
+                            "2": "drekkur",
+                            "3": "drekkur"
+                        },
+                        "plural": {
+                            "1": "drekkum",
+                            "2": "drekkið",
+                            "3": "drekka"
+                        }
                     },
-                    "plural": {
-                        "no_article": {"Nf": "drekkur", "Þf": "drekkur", "Þgf": "drekkum", "Ef": "drekka"},
-                        "with_article": {"Nf": "drekkurnar", "Þf": "drekkurnar", "Þgf": "drekkunum", "Ef": "drekkanna"}
+                    "past": {
+                        "label": "Þátíð",
+                        "singular": {
+                            "1": "drakk",
+                            "2": "drakkst",
+                            "3": "drakk"
+                        },
+                        "plural": {
+                            "1": "drukkum",
+                            "2": "drukkuð",
+                            "3": "drukku"
+                        }
                     }
                 },
-                "past": {
-                    "singular": {
-                        "no_article": {"Nf": "drekkju", "Þf": "drekkju", "Þgf": "drekkju", "Ef": "drekkju"},
-                        "with_article": {"Nf": "drekkjuna", "Þf": "drekkjuna", "Þgf": "drekkjunni", "Ef": "drekkjunnar"}
-                    },
-                    "plural": {
-                        "no_article": {"Nf": "drekkur", "Þf": "drekkur", "Þgf": "drekkum", "Ef": "drekka"},
-                        "with_article": {"Nf": "drekkurnar", "Þf": "drekkurnar", "Þgf": "drekkunum", "Ef": "drekkanna"}
+                "ui": {
+                    "pronouns": {
+                        "singular": { "1": "ég", "2": "þú", "3": "hann / hún / það" },
+                        "plural":   { "1": "við", "2": "þið", "3": "þeir / þær / þau" }
                     }
                 }
             },
             {
                 "verb": "borða",
-                "translation": "to eat",
-                "present": {
-                    "singular": {
-                        "no_article": {"Nf": "borða", "Þf": "borðu", "Þgf": "borðu", "Ef": "borðu"},
-                        "with_article": {"Nf": "borðan", "Þf": "borðuna", "Þgf": "borðunni", "Ef": "borðunnar"}
+                "lemmas": ["borða"],
+                "tenses": {
+                    "present": {
+                        "label": "Nútíð",
+                        "singular": {
+                            "1": "borða",
+                            "2": "borðar",
+                            "3": "borðar"
+                        },
+                        "plural": {
+                            "1": "borðum",
+                            "2": "borðið",
+                            "3": "borða"
+                        }
                     },
-                    "plural": {
-                        "no_article": {"Nf": "borður", "Þf": "borður", "Þgf": "borðum", "Ef": "borða"},
-                        "with_article": {"Nf": "borðurnar", "Þf": "borðurnar", "Þgf": "borðunum", "Ef": "borðanna"}
+                    "past": {
+                        "label": "Þátíð",
+                        "singular": {
+                            "1": "borðaði",
+                            "2": "borðaðir",
+                            "3": "borðaði"
+                        },
+                        "plural": {
+                            "1": "borðuðum",
+                            "2": "borðuðuð",
+                            "3": "borðuðu"
+                        }
                     }
                 },
-                "past": {
-                    "singular": {
-                        "no_article": {"Nf": "borðu", "Þf": "borðu", "Þgf": "borðu", "Ef": "borðu"},
-                        "with_article": {"Nf": "borðuna", "Þf": "borðuna", "Þgf": "borðunni", "Ef": "borðunnar"}
-                    },
-                    "plural": {
-                        "no_article": {"Nf": "borður", "Þf": "borður", "Þgf": "borðum", "Ef": "borða"},
-                        "with_article": {"Nf": "borðurnar", "Þf": "borðurnar", "Þgf": "borðunum", "Ef": "borðanna"}
+                "ui": {
+                    "pronouns": {
+                        "singular": { "1": "ég", "2": "þú", "3": "hann / hún / það" },
+                        "plural":   { "1": "við", "2": "þið", "3": "þeir / þær / þau" }
                     }
                 }
             }
