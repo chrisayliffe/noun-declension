@@ -82,10 +82,10 @@ const VERB_DATA = [
 Find the verb selector (around line 265):
 ```html
 <select id="verbSelect">
-    <option value="0">drekka (to drink)</option>
-    <option value="1">borða (to eat)</option>
+    <option value="0">drekka</option>
+    <option value="1">borða</option>
     <!-- Add your new option here -->
-    <option value="2">YOUR_VERB (translation)</option>
+    <option value="2">YOUR_VERB</option>
 </select>
 ```
 
