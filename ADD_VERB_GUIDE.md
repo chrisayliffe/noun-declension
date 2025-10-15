@@ -189,12 +189,16 @@ Go to https://bin.arnastofnun.is/ and search for "skrifa"
 
 ---
 
-## Understanding the Cases
+## Understanding the Structure
 
-- **Nf. (Nefnifall)** = Nominative case
-- **Þf. (Þolfall)** = Accusative case  
-- **Þgf. (Þágufall)** = Dative case
-- **Ef. (Eignarfall)** = Genitive case
+### Persons
+- **1st Person:** ég (singular) / við (plural) - "I" / "we"
+- **2nd Person:** þú (singular) / þið (plural) - "you" / "you all"
+- **3rd Person:** hann/hún/það (singular) / þeir/þær/þau (plural) - "he/she/it" / "they"
+
+### Tenses
+- **Nútíð** = Present tense
+- **Þátíð** = Past tense
 
 ---
 
