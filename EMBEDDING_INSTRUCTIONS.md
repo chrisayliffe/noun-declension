@@ -54,25 +54,39 @@ YOUR_HOSTED_URL/icelandic-verb-game.html
 ```javascript
 {
     "verb": "YOUR_VERB_NAME",
-    "translation": "English translation",
-    "present": {
-        "singular": {
-            "no_article": {"Nf": "form1", "Þf": "form2", "Þgf": "form3", "Ef": "form4"},
-            "with_article": {"Nf": "form5", "Þf": "form6", "Þgf": "form7", "Ef": "form8"}
+    "lemmas": ["YOUR_VERB_NAME"],
+    "tenses": {
+        "present": {
+            "label": "Nútíð",
+            "singular": {
+                "1": "1st_person_sing",    // ég
+                "2": "2nd_person_sing",    // þú
+                "3": "3rd_person_sing"     // hann/hún/það
+            },
+            "plural": {
+                "1": "1st_person_plural",  // við
+                "2": "2nd_person_plural",  // þið
+                "3": "3rd_person_plural"   // þeir/þær/þau
+            }
         },
-        "plural": {
-            "no_article": {"Nf": "form9", "Þf": "form10", "Þgf": "form11", "Ef": "form12"},
-            "with_article": {"Nf": "form13", "Þf": "form14", "Þgf": "form15", "Ef": "form16"}
+        "past": {
+            "label": "Þátíð",
+            "singular": {
+                "1": "1st_past_sing",
+                "2": "2nd_past_sing",
+                "3": "3rd_past_sing"
+            },
+            "plural": {
+                "1": "1st_past_plural",
+                "2": "2nd_past_plural",
+                "3": "3rd_past_plural"
+            }
         }
     },
-    "past": {
-        "singular": {
-            "no_article": {"Nf": "form1", "Þf": "form2", "Þgf": "form3", "Ef": "form4"},
-            "with_article": {"Nf": "form5", "Þf": "form6", "Þgf": "form7", "Ef": "form8"}
-        },
-        "plural": {
-            "no_article": {"Nf": "form9", "Þf": "form10", "Þgf": "form11", "Ef": "form12"},
-            "with_article": {"Nf": "form13", "Þf": "form14", "Þgf": "form15", "Ef": "form16"}
+    "ui": {
+        "pronouns": {
+            "singular": { "1": "ég", "2": "þú", "3": "hann / hún / það" },
+            "plural":   { "1": "við", "2": "þið", "3": "þeir / þær / þau" }
         }
     }
 }
