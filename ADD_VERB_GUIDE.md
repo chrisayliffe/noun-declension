@@ -11,10 +11,14 @@ Search for `VERB_DATA` (around line 390). You'll see something like:
 const VERB_DATA = [
     {
         "verb": "drekka",
+        "lemmas": ["drekka"],
+        "tenses": {...},
         ...
     },
     {
         "verb": "borða",
+        "lemmas": ["borða"],
+        "tenses": {...},
         ...
     }
 ];
