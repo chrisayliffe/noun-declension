@@ -785,8 +785,8 @@
             dropZones.forEach(zone => {
                 const tile = zone.querySelector('.tile');
                 if (tile) {
-                    const userAnswer = tile.dataset.form.toLowerCase();
-                    const correctAnswer = zone.dataset.correct.toLowerCase();
+                    const userAnswer = tile.dataset.form.trim().toLowerCase();
+                    const correctAnswer = zone.dataset.correct.trim().toLowerCase();
                     
                     if (userAnswer === correctAnswer) {
                         zone.classList.add('correct');
