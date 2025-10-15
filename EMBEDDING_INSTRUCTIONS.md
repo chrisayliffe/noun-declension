@@ -95,9 +95,9 @@ YOUR_HOSTED_URL/icelandic-verb-game.html
 5. Don't forget to add a comma after the previous verb object!
 6. Update the dropdown option in the HTML (around line 265):
 ```html
-<option value="0">drekka (to drink)</option>
-<option value="1">borða (to eat)</option>
-<option value="2">YOUR_NEW_VERB (translation)</option>
+<option value="0">drekka</option>
+<option value="1">borða</option>
+<option value="2">YOUR_NEW_VERB</option>
 ```
 
 ### Getting Verb Data from BÍN (bin.arnastofnun.is)
