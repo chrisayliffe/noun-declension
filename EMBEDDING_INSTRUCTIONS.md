@@ -103,9 +103,10 @@ YOUR_HOSTED_URL/icelandic-verb-game.html
 ### Getting Verb Data from BÍN (bin.arnastofnun.is)
 1. Go to https://bin.arnastofnun.is/
 2. Search for your verb
-3. Look for the noun declension table showing all cases
-4. Copy the forms for each case (Nf., Þf., Þgf., Ef.) in both singular and plural
-5. Make sure to get both versions: án greinis (without article) and með greini (with article)
+3. Look for the verb conjugation table (beygingar)
+4. Copy the conjugated forms for:
+   - Present tense (Nútíð): 1st, 2nd, 3rd person in both singular and plural
+   - Past tense (Þátíð): 1st, 2nd, 3rd person in both singular and plural
 
 ## 🎨 Customization
 
