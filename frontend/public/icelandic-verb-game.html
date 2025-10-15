@@ -759,7 +759,7 @@
 
             inputs.forEach(input => {
                 const userAnswer = input.value.trim().toLowerCase();
-                const correctAnswer = input.dataset.correct.toLowerCase();
+                const correctAnswer = input.dataset.correct.trim().toLowerCase();
                 
                 if (userAnswer === correctAnswer) {
                     input.classList.add('correct');
