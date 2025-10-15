@@ -208,25 +208,39 @@ Go to https://bin.arnastofnun.is/ and search for "skrifa"
 ,
 {
     "verb": "",
-    "translation": "",
-    "present": {
-        "singular": {
-            "no_article": {"Nf": "", "Þf": "", "Þgf": "", "Ef": ""},
-            "with_article": {"Nf": "", "Þf": "", "Þgf": "", "Ef": ""}
+    "lemmas": [""],
+    "tenses": {
+        "present": {
+            "label": "Nútíð",
+            "singular": {
+                "1": "",
+                "2": "",
+                "3": ""
+            },
+            "plural": {
+                "1": "",
+                "2": "",
+                "3": ""
+            }
         },
-        "plural": {
-            "no_article": {"Nf": "", "Þf": "", "Þgf": "", "Ef": ""},
-            "with_article": {"Nf": "", "Þf": "", "Þgf": "", "Ef": ""}
+        "past": {
+            "label": "Þátíð",
+            "singular": {
+                "1": "",
+                "2": "",
+                "3": ""
+            },
+            "plural": {
+                "1": "",
+                "2": "",
+                "3": ""
+            }
         }
     },
-    "past": {
-        "singular": {
-            "no_article": {"Nf": "", "Þf": "", "Þgf": "", "Ef": ""},
-            "with_article": {"Nf": "", "Þf": "", "Þgf": "", "Ef": ""}
-        },
-        "plural": {
-            "no_article": {"Nf": "", "Þf": "", "Þgf": "", "Ef": ""},
-            "with_article": {"Nf": "", "Þf": "", "Þgf": "", "Ef": ""}
+    "ui": {
+        "pronouns": {
+            "singular": { "1": "ég", "2": "þú", "3": "hann / hún / það" },
+            "plural":   { "1": "við", "2": "þið", "3": "þeir / þær / þau" }
         }
     }
 }
