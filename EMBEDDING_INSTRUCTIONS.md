@@ -168,7 +168,7 @@ For additional help:
 ## 📊 Tracking Progress
 The game shows:
 - **Progress:** Percentage of correct answers
-- **Correct Count:** Number of correct answers out of total
+- **Correct Count:** Number of correct answers out of 6 (3 persons × 2 numbers)
 
 Progress resets when:
 - Switching verbs
