@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icelandic Verb Practice Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #ffffff;
+            color: #121212;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #121212;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .controls {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .control-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #121212;
+        }
+
+        select, button {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #121212;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        select:hover, select:focus {
+            border-color: #21b766;
+            outline: none;
+        }
+
+        button {
+            font-weight: 600;
+            border: none;
+            background: #21b766;
+            color: white;
+        }
+
+        button:hover {
+            background: #1a9654;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(33, 183, 102, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.secondary {
+            background: #121212;
+        }
+
+        button.secondary:hover {
+            background: #333;
+        }
+
+        .mode-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .mode-tab {
+            flex: 1;
+            padding: 12px;
+            background: #f0f0f0;
+            border: 2px solid transparent;
+            color: #666;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mode-tab.active {
+            background: white;
+            border-color: #21b766;
+            color: #21b766;
+            box-shadow: 0 2px 8px rgba(33, 183, 102, 0.1);
+        }
+
+        .game-area {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: #f5f5f5;
+            font-weight: 600;
+            color: #121212;
+        }
+
+        td {
+            background: white;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #21b766;
+        }
+
+        input.correct {
+            border-color: #21b766;
+            background: #f0fdf4;
+        }
+
+        input.incorrect {
+            border-color: #f15d4e;
+            background: #fef2f2;
+        }
+
+        .drag-tiles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            min-height: 80px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 2px dashed #ddd;
+        }
+
+        .tile {
+            padding: 10px 16px;
+            background: white;
+            border: 2px solid #21b766;
+            border-radius: 8px;
+            cursor: grab;
+            user-select: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .tile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .tile.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        .drop-zone {
+            min-height: 40px;
+            background: #f9f9f9;
+            border: 2px dashed #ddd;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .drop-zone.drag-over {
+            background: #e8f5e9;
+            border-color: #21b766;
+        }
+
+        .drop-zone .tile {
+            border-style: solid;
+            cursor: pointer;
+        }
+
+        .drop-zone.correct {
+            background: #f0fdf4;
+            border-color: #21b766;
+        }
+
+        .drop-zone.incorrect {
+            background: #fef2f2;
+            border-color: #f15d4e;
+        }
+
+        .score {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .score-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .score-value {
+            font-size: 1.5rem;
+            color: #21b766;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .actions button {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .feedback {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .feedback.success {
+            background: #f0fdf4;
+            color: #21b766;
+            border: 2px solid #21b766;
+        }
+
+        .feedback.error {
+            background: #fef2f2;
+            color: #f15d4e;
+            border: 2px solid #f15d4e;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .game-area {
+                padding: 20px;
+            }
+
+            table {
+                font-size: 0.875rem;
+            }
+
+            th, td {
+                padding: 8px 4px;
+            }
+
+            .tile {
+                font-size: 0.875rem;
+                padding: 8px 12px;
+            }
+
+            .control-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .actions button {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Icelandic Verb Practice Game</h1>
+        <p class="subtitle">Practice verb conjugations in all cases</p>
+
+        <div class="controls">
+            <div class="control-row">
+                <div class="control-group">
+                    <label for="verbSelect">Select Verb:</label>
+                    <select id="verbSelect">
+                        <option value="0">drekka (to drink)</option>
+                        <option value="1">borða (to eat)</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="tenseSelect">Tense:</label>
+                    <select id="tenseSelect">
+                        <option value="present">Present</option>
+                        <option value="past">Past</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>&nbsp;</label>
+                    <button onclick="toggleAnswers()">Show Answers</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="mode-tabs">
+            <div class="mode-tab active" onclick="switchMode('fill')">
+                Fill in the Blank
+            </div>
+            <div class="mode-tab" onclick="switchMode('drag')">
+                Drag & Drop
+            </div>
+        </div>
+
+        <div class="score">
+            <div class="score-item">
+                <span>Progress:</span>
+                <span class="score-value" id="scoreDisplay">0%</span>
+            </div>
+            <div class="score-item">
+                <span>Correct:</span>
+                <span class="score-value" id="correctCount">0</span>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div id="fillMode">
+                <table id="fillTable"></table>
+                <div class="actions">
+                    <button onclick="checkAnswers()">Check Answers</button>
+                    <button class="secondary" onclick="resetGame()">Reset</button>
+                </div>
+            </div>
+
+            <div id="dragMode" class="hidden">
+                <div class="drag-tiles" id="dragTiles"></div>
+                <table id="dragTable"></table>
+                <div class="actions">
+                    <button onclick="checkDragAnswers()">Check Answers</button>
+                    <button class="secondary" onclick="resetGame()">Reset</button>
+                </div>
+            </div>
+
+            <div id="feedback"></div>
+        </div>
+    </div>
+
+    <script>
+        // Verb data - easily editable JSON
+        const VERB_DATA = [
+            {
+                "verb": "drekka",
+                "translation": "to drink",
+                "present": {
+                    "singular": {
+                        "no_article": {"Nf": "drekka", "Þf": "drekkju", "Þgf": "drekkju", "Ef": "drekkju"},
+                        "with_article": {"Nf": "drekkan", "Þf": "drekkjuna", "Þgf": "drekkjunni", "Ef": "drekkjunnar"}
+                    },
+                    "plural": {
+                        "no_article": {"Nf": "drekkur", "Þf": "drekkur", "Þgf": "drekkum", "Ef": "drekka"},
+                        "with_article": {"Nf": "drekkurnar", "Þf": "drekkurnar", "Þgf": "drekkunum", "Ef": "drekkanna"}
+                    }
+                },
+                "past": {
+                    "singular": {
+                        "no_article": {"Nf": "drekkju", "Þf": "drekkju", "Þgf": "drekkju", "Ef": "drekkju"},
+                        "with_article": {"Nf": "drekkjuna", "Þf": "drekkjuna", "Þgf": "drekkjunni", "Ef": "drekkjunnar"}
+                    },
+                    "plural": {
+                        "no_article": {"Nf": "drekkur", "Þf": "drekkur", "Þgf": "drekkum", "Ef": "drekka"},
+                        "with_article": {"Nf": "drekkurnar", "Þf": "drekkurnar", "Þgf": "drekkunum", "Ef": "drekkanna"}
+                    }
+                }
+            },
+            {
+                "verb": "borða",
+                "translation": "to eat",
+                "present": {
+                    "singular": {
+                        "no_article": {"Nf": "borða", "Þf": "borðu", "Þgf": "borðu", "Ef": "borðu"},
+                        "with_article": {"Nf": "borðan", "Þf": "borðuna", "Þgf": "borðunni", "Ef": "borðunnar"}
+                    },
+                    "plural": {
+                        "no_article": {"Nf": "borður", "Þf": "borður", "Þgf": "borðum", "Ef": "borða"},
+                        "with_article": {"Nf": "borðurnar", "Þf": "borðurnar", "Þgf": "borðunum", "Ef": "borðanna"}
+                    }
+                },
+                "past": {
+                    "singular": {
+                        "no_article": {"Nf": "borðu", "Þf": "borðu", "Þgf": "borðu", "Ef": "borðu"},
+                        "with_article": {"Nf": "borðuna", "Þf": "borðuna", "Þgf": "borðunni", "Ef": "borðunnar"}
+                    },
+                    "plural": {
+                        "no_article": {"Nf": "borður", "Þf": "borður", "Þgf": "borðum", "Ef": "borða"},
+                        "with_article": {"Nf": "borðurnar", "Þf": "borðurnar", "Þgf": "borðunum", "Ef": "borðanna"}
+                    }
+                }
+            }
+        ];
+
+        let currentMode = 'fill';
+        let showingAnswers = false;
+        let draggedElement = null;
+
+        // Initialize game
+        function init() {
+            document.getElementById('verbSelect').addEventListener('change', resetGame);
+            document.getElementById('tenseSelect').addEventListener('change', resetGame);
+            resetGame();
+        }
+
+        function getCurrentData() {
+            const verbIndex = parseInt(document.getElementById('verbSelect').value);
+            const tense = document.getElementById('tenseSelect').value;
+            const verb = VERB_DATA[verbIndex];
+            return verb[tense];
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (mode === 'fill') {
+                document.getElementById('fillMode').classList.remove('hidden');
+                document.getElementById('dragMode').classList.add('hidden');
+            } else {
+                document.getElementById('fillMode').classList.add('hidden');
+                document.getElementById('dragMode').classList.remove('hidden');
+            }
+            
+            resetGame();
+        }
+
+        function createFillTable() {
+            const data = getCurrentData();
+            const table = document.getElementById('fillTable');
+            table.innerHTML = '';
+
+            const headers = ['', 'Nf.', 'Þf.', 'Þgf.', 'Ef.'];
+            const headerRow = document.createElement('tr');
+            headers.forEach(h => {
+                const th = document.createElement('th');
+                th.textContent = h;
+                headerRow.appendChild(th);
+            });
+            table.appendChild(headerRow);
+
+            const rows = [
+                ['Singular (án greinis)', 'singular', 'no_article'],
+                ['Singular (með greini)', 'singular', 'with_article'],
+                ['Plural (án greinis)', 'plural', 'no_article'],
+                ['Plural (með greini)', 'plural', 'with_article']
+            ];
+
+            rows.forEach(([label, number, article]) => {
+                const tr = document.createElement('tr');
+                const th = document.createElement('th');
+                th.textContent = label;
+                tr.appendChild(th);
+
+                ['Nf', 'Þf', 'Þgf', 'Ef'].forEach(caseKey => {
+                    const td = document.createElement('td');
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.dataset.correct = data[number][article][caseKey];
+                    input.dataset.number = number;
+                    input.dataset.article = article;
+                    input.dataset.case = caseKey;
+                    td.appendChild(input);
+                    tr.appendChild(td);
+                });
+
+                table.appendChild(tr);
+            });
+        }
+
+        function createDragTable() {
+            const data = getCurrentData();
+            const table = document.getElementById('dragTable');
+            const tiles = document.getElementById('dragTiles');
+            
+            table.innerHTML = '';
+            tiles.innerHTML = '';
+
+            // Create tiles
+            const allForms = [];
+            ['singular', 'plural'].forEach(number => {
+                ['no_article', 'with_article'].forEach(article => {
+                    ['Nf', 'Þf', 'Þgf', 'Ef'].forEach(caseKey => {
+                        allForms.push(data[number][article][caseKey]);
+                    });
+                });
+            });
+
+            // Shuffle forms
+            allForms.sort(() => Math.random() - 0.5);
+
+            allForms.forEach(form => {
+                const tile = document.createElement('div');
+                tile.className = 'tile';
+                tile.textContent = form;
+                tile.draggable = true;
+                tile.dataset.form = form;
+                
+                tile.addEventListener('dragstart', handleDragStart);
+                tile.addEventListener('dragend', handleDragEnd);
+                
+                tiles.appendChild(tile);
+            });
+
+            // Create table
+            const headers = ['', 'Nf.', 'Þf.', 'Þgf.', 'Ef.'];
+            const headerRow = document.createElement('tr');
+            headers.forEach(h => {
+                const th = document.createElement('th');
+                th.textContent = h;
+                headerRow.appendChild(th);
+            });
+            table.appendChild(headerRow);
+
+            const rows = [
+                ['Singular (án greinis)', 'singular', 'no_article'],
+                ['Singular (með greini)', 'singular', 'with_article'],
+                ['Plural (án greinis)', 'plural', 'no_article'],
+                ['Plural (með greini)', 'plural', 'with_article']
+            ];
+
+            rows.forEach(([label, number, article]) => {
+                const tr = document.createElement('tr');
+                const th = document.createElement('th');
+                th.textContent = label;
+                tr.appendChild(th);
+
+                ['Nf', 'Þf', 'Þgf', 'Ef'].forEach(caseKey => {
+                    const td = document.createElement('td');
+                    const dropZone = document.createElement('div');
+                    dropZone.className = 'drop-zone';
+                    dropZone.dataset.correct = data[number][article][caseKey];
+                    dropZone.dataset.number = number;
+                    dropZone.dataset.article = article;
+                    dropZone.dataset.case = caseKey;
+                    
+                    dropZone.addEventListener('dragover', handleDragOver);
+                    dropZone.addEventListener('drop', handleDrop);
+                    dropZone.addEventListener('dragleave', handleDragLeave);
+                    dropZone.addEventListener('click', handleDropZoneClick);
+                    
+                    td.appendChild(dropZone);
+                    tr.appendChild(td);
+                });
+
+                table.appendChild(tr);
+            });
+        }
+
+        function handleDragStart(e) {
+            draggedElement = e.target;
+            e.target.classList.add('dragging');
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            e.currentTarget.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('drag-over');
+            
+            const dropZone = e.currentTarget;
+            
+            // If drop zone already has a tile, send it back to tiles area
+            const existingTile = dropZone.querySelector('.tile');
+            if (existingTile) {
+                document.getElementById('dragTiles').appendChild(existingTile);
+            }
+            
+            // Add the dragged tile to drop zone
+            dropZone.appendChild(draggedElement);
+            draggedElement = null;
+        }
+
+        function handleDropZoneClick(e) {
+            const dropZone = e.currentTarget;
+            const tile = dropZone.querySelector('.tile');
+            if (tile) {
+                document.getElementById('dragTiles').appendChild(tile);
+            }
+        }
+
+        function checkAnswers() {
+            const inputs = document.querySelectorAll('#fillTable input');
+            let correct = 0;
+            let total = inputs.length;
+
+            inputs.forEach(input => {
+                const userAnswer = input.value.trim().toLowerCase();
+                const correctAnswer = input.dataset.correct.toLowerCase();
+                
+                if (userAnswer === correctAnswer) {
+                    input.classList.add('correct');
+                    input.classList.remove('incorrect');
+                    correct++;
+                } else if (userAnswer !== '') {
+                    input.classList.add('incorrect');
+                    input.classList.remove('correct');
+                } else {
+                    input.classList.remove('correct', 'incorrect');
+                }
+            });
+
+            updateScore(correct, total);
+            showFeedback(correct, total);
+        }
+
+        function checkDragAnswers() {
+            const dropZones = document.querySelectorAll('#dragTable .drop-zone');
+            let correct = 0;
+            let total = dropZones.length;
+
+            dropZones.forEach(zone => {
+                const tile = zone.querySelector('.tile');
+                if (tile) {
+                    const userAnswer = tile.dataset.form.toLowerCase();
+                    const correctAnswer = zone.dataset.correct.toLowerCase();
+                    
+                    if (userAnswer === correctAnswer) {
+                        zone.classList.add('correct');
+                        zone.classList.remove('incorrect');
+                        correct++;
+                    } else {
+                        zone.classList.add('incorrect');
+                        zone.classList.remove('correct');
+                    }
+                } else {
+                    zone.classList.remove('correct', 'incorrect');
+                }
+            });
+
+            updateScore(correct, total);
+            showFeedback(correct, total);
+        }
+
+        function updateScore(correct, total) {
+            const percentage = Math.round((correct / total) * 100);
+            document.getElementById('scoreDisplay').textContent = percentage + '%';
+            document.getElementById('correctCount').textContent = correct + '/' + total;
+        }
+
+        function showFeedback(correct, total) {
+            const feedback = document.getElementById('feedback');
+            feedback.className = 'feedback';
+            
+            if (correct === total) {
+                feedback.classList.add('success');
+                feedback.textContent = '🎉 Perfect! All answers correct!';
+            } else if (correct > total / 2) {
+                feedback.classList.add('success');
+                feedback.textContent = `Good job! ${correct} out of ${total} correct.`;
+            } else {
+                feedback.classList.add('error');
+                feedback.textContent = `Keep practicing! ${correct} out of ${total} correct.`;
+            }
+        }
+
+        function toggleAnswers() {
+            showingAnswers = !showingAnswers;
+            const button = event.target;
+            
+            if (showingAnswers) {
+                button.textContent = 'Hide Answers';
+                if (currentMode === 'fill') {
+                    const inputs = document.querySelectorAll('#fillTable input');
+                    inputs.forEach(input => {
+                        input.value = input.dataset.correct;
+                        input.classList.add('correct');
+                    });
+                } else {
+                    // For drag mode, show correct answers in drop zones
+                    const dropZones = document.querySelectorAll('#dragTable .drop-zone');
+                    dropZones.forEach(zone => {
+                        if (!zone.querySelector('.tile')) {
+                            const hint = document.createElement('span');
+                            hint.style.color = '#21b766';
+                            hint.style.fontSize = '0.875rem';
+                            hint.textContent = zone.dataset.correct;
+                            zone.appendChild(hint);
+                        }
+                    });
+                }
+            } else {
+                button.textContent = 'Show Answers';
+                if (currentMode === 'fill') {
+                    const inputs = document.querySelectorAll('#fillTable input');
+                    inputs.forEach(input => {
+                        input.value = '';
+                        input.classList.remove('correct', 'incorrect');
+                    });
+                } else {
+                    const dropZones = document.querySelectorAll('#dragTable .drop-zone');
+                    dropZones.forEach(zone => {
+                        const hint = zone.querySelector('span');
+                        if (hint) hint.remove();
+                    });
+                }
+            }
+        }
+
+        function resetGame() {
+            showingAnswers = false;
+            document.getElementById('feedback').innerHTML = '';
+            document.getElementById('scoreDisplay').textContent = '0%';
+            document.getElementById('correctCount').textContent = '0';
+            
+            const showAnswersBtn = document.querySelector('.controls button');
+            if (showAnswersBtn) showAnswersBtn.textContent = 'Show Answers';
+            
+            if (currentMode === 'fill') {
+                createFillTable();
+            } else {
+                createDragTable();
+            }
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
