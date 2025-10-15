@@ -49,7 +49,7 @@ YOUR_HOSTED_URL/icelandic-verb-game.html
 1. Open the `icelandic-verb-game.html` file in a text editor (Notepad, TextEdit, VS Code, etc.)
 2. Find the `VERB_DATA` section (around line 390)
 3. Copy an existing verb object and modify it with your new verb data
-4. Follow this structure:
+4. Follow this structure (conjugation by person):
 
 ```javascript
 {
