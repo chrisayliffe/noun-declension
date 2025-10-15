@@ -605,20 +605,18 @@
         }
 
         function createDragTable() {
-            const data = getCurrentData();
+            const { tenseData, pronouns } = getCurrentData();
             const table = document.getElementById('dragTable');
             const tiles = document.getElementById('dragTiles');
             
             table.innerHTML = '';
             tiles.innerHTML = '';
 
-            // Create tiles
+            // Create tiles - collect all forms
             const allForms = [];
             ['singular', 'plural'].forEach(number => {
-                ['no_article', 'with_article'].forEach(article => {
-                    ['Nf', 'Þf', 'Þgf', 'Ef'].forEach(caseKey => {
-                        allForms.push(data[number][article][caseKey]);
-                    });
+                ['1', '2', '3'].forEach(person => {
+                    allForms.push(tenseData[number][person]);
                 });
             });
 
@@ -638,9 +636,9 @@
                 tiles.appendChild(tile);
             });
 
-            // Create table
-            const headers = ['', 'Nf.', 'Þf.', 'Þgf.', 'Ef.'];
+            // Create table header
             const headerRow = document.createElement('tr');
+            const headers = ['', '1st Person', '2nd Person', '3rd Person'];
             headers.forEach(h => {
                 const th = document.createElement('th');
                 th.textContent = h;
@@ -648,39 +646,67 @@
             });
             table.appendChild(headerRow);
 
-            const rows = [
-                ['Singular (án greinis)', 'singular', 'no_article'],
-                ['Singular (með greini)', 'singular', 'with_article'],
-                ['Plural (án greinis)', 'plural', 'no_article'],
-                ['Plural (með greini)', 'plural', 'with_article']
-            ];
+            // Singular row
+            const singularRow = document.createElement('tr');
+            const singularTh = document.createElement('th');
+            singularTh.textContent = 'Singular (Eintala)';
+            singularRow.appendChild(singularTh);
 
-            rows.forEach(([label, number, article]) => {
-                const tr = document.createElement('tr');
-                const th = document.createElement('th');
-                th.textContent = label;
-                tr.appendChild(th);
-
-                ['Nf', 'Þf', 'Þgf', 'Ef'].forEach(caseKey => {
-                    const td = document.createElement('td');
-                    const dropZone = document.createElement('div');
-                    dropZone.className = 'drop-zone';
-                    dropZone.dataset.correct = data[number][article][caseKey];
-                    dropZone.dataset.number = number;
-                    dropZone.dataset.article = article;
-                    dropZone.dataset.case = caseKey;
-                    
-                    dropZone.addEventListener('dragover', handleDragOver);
-                    dropZone.addEventListener('drop', handleDrop);
-                    dropZone.addEventListener('dragleave', handleDragLeave);
-                    dropZone.addEventListener('click', handleDropZoneClick);
-                    
-                    td.appendChild(dropZone);
-                    tr.appendChild(td);
-                });
-
-                table.appendChild(tr);
+            ['1', '2', '3'].forEach(person => {
+                const td = document.createElement('td');
+                const pronounSpan = document.createElement('div');
+                pronounSpan.style.fontSize = '0.875rem';
+                pronounSpan.style.color = '#666';
+                pronounSpan.style.marginBottom = '5px';
+                pronounSpan.textContent = pronouns.singular[person];
+                
+                const dropZone = document.createElement('div');
+                dropZone.className = 'drop-zone';
+                dropZone.dataset.correct = tenseData.singular[person];
+                dropZone.dataset.number = 'singular';
+                dropZone.dataset.person = person;
+                
+                dropZone.addEventListener('dragover', handleDragOver);
+                dropZone.addEventListener('drop', handleDrop);
+                dropZone.addEventListener('dragleave', handleDragLeave);
+                dropZone.addEventListener('click', handleDropZoneClick);
+                
+                td.appendChild(pronounSpan);
+                td.appendChild(dropZone);
+                singularRow.appendChild(td);
             });
+            table.appendChild(singularRow);
+
+            // Plural row
+            const pluralRow = document.createElement('tr');
+            const pluralTh = document.createElement('th');
+            pluralTh.textContent = 'Plural (Fleirtala)';
+            pluralRow.appendChild(pluralTh);
+
+            ['1', '2', '3'].forEach(person => {
+                const td = document.createElement('td');
+                const pronounSpan = document.createElement('div');
+                pronounSpan.style.fontSize = '0.875rem';
+                pronounSpan.style.color = '#666';
+                pronounSpan.style.marginBottom = '5px';
+                pronounSpan.textContent = pronouns.plural[person];
+                
+                const dropZone = document.createElement('div');
+                dropZone.className = 'drop-zone';
+                dropZone.dataset.correct = tenseData.plural[person];
+                dropZone.dataset.number = 'plural';
+                dropZone.dataset.person = person;
+                
+                dropZone.addEventListener('dragover', handleDragOver);
+                dropZone.addEventListener('drop', handleDrop);
+                dropZone.addEventListener('dragleave', handleDragLeave);
+                dropZone.addEventListener('click', handleDropZoneClick);
+                
+                td.appendChild(pronounSpan);
+                td.appendChild(dropZone);
+                pluralRow.appendChild(td);
+            });
+            table.appendChild(pluralRow);
         }
 
         function handleDragStart(e) {
