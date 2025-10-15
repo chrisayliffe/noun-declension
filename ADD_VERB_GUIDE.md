@@ -105,25 +105,39 @@ Go to https://bin.arnastofnun.is/ and search for "skrifa"
 ```javascript
 {
     "verb": "skrifa",
-    "translation": "to write",
-    "present": {
-        "singular": {
-            "no_article": {"Nf": "skrifa", "Þf": "skriftu", "Þgf": "skriftu", "Ef": "skriftu"},
-            "with_article": {"Nf": "skriftan", "Þf": "skriftuna", "Þgf": "skriftunni", "Ef": "skriftunnar"}
+    "lemmas": ["skrifa"],
+    "tenses": {
+        "present": {
+            "label": "Nútíð",
+            "singular": {
+                "1": "skrifa",
+                "2": "skrifar",
+                "3": "skrifar"
+            },
+            "plural": {
+                "1": "skrifum",
+                "2": "skrifið",
+                "3": "skrifa"
+            }
         },
-        "plural": {
-            "no_article": {"Nf": "skriftur", "Þf": "skriftur", "Þgf": "skriftum", "Ef": "skrifta"},
-            "with_article": {"Nf": "skrifturnar", "Þf": "skrifturnar", "Þgf": "skriftunum", "Ef": "skriftanna"}
+        "past": {
+            "label": "Þátíð",
+            "singular": {
+                "1": "skrifaði",
+                "2": "skrifaðir",
+                "3": "skrifaði"
+            },
+            "plural": {
+                "1": "skrifuðum",
+                "2": "skrifuðuð",
+                "3": "skrifuðu"
+            }
         }
     },
-    "past": {
-        "singular": {
-            "no_article": {"Nf": "skriftu", "Þf": "skriftu", "Þgf": "skriftu", "Ef": "skriftu"},
-            "with_article": {"Nf": "skriftuna", "Þf": "skriftuna", "Þgf": "skriftunni", "Ef": "skriftunnar"}
-        },
-        "plural": {
-            "no_article": {"Nf": "skriftur", "Þf": "skriftur", "Þgf": "skriftum", "Ef": "skrifta"},
-            "with_article": {"Nf": "skrifturnar", "Þf": "skrifturnar", "Þgf": "skriftunum", "Ef": "skriftanna"}
+    "ui": {
+        "pronouns": {
+            "singular": { "1": "ég", "2": "þú", "3": "hann / hún / það" },
+            "plural":   { "1": "við", "2": "þið", "3": "þeir / þær / þau" }
         }
     }
 }
@@ -131,7 +145,7 @@ Go to https://bin.arnastofnun.is/ and search for "skrifa"
 
 ### 3. Add to dropdown:
 ```html
-<option value="2">skrifa (to write)</option>
+<option value="2">skrifa</option>
 ```
 
 ---
