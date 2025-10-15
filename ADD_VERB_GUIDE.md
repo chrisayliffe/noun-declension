@@ -39,46 +39,39 @@ const VERB_DATA = [
     },
     {
         "verb": "YOUR_NEW_VERB",
-        "translation": "English meaning",
-        "present": {
-            "singular": {
-                "no_article": {
-                    "Nf": "nominative_form",
-                    "Þf": "accusative_form",
-                    "Þgf": "dative_form",
-                    "Ef": "genitive_form"
+        "lemmas": ["YOUR_NEW_VERB"],
+        "tenses": {
+            "present": {
+                "label": "Nútíð",
+                "singular": {
+                    "1": "1st_person_singular",
+                    "2": "2nd_person_singular",
+                    "3": "3rd_person_singular"
                 },
-                "with_article": {
-                    "Nf": "nominative_with_article",
-                    "Þf": "accusative_with_article",
-                    "Þgf": "dative_with_article",
-                    "Ef": "genitive_with_article"
+                "plural": {
+                    "1": "1st_person_plural",
+                    "2": "2nd_person_plural",
+                    "3": "3rd_person_plural"
                 }
             },
-            "plural": {
-                "no_article": {
-                    "Nf": "nominative_plural",
-                    "Þf": "accusative_plural",
-                    "Þgf": "dative_plural",
-                    "Ef": "genitive_plural"
+            "past": {
+                "label": "Þátíð",
+                "singular": {
+                    "1": "1st_person_singular_past",
+                    "2": "2nd_person_singular_past",
+                    "3": "3rd_person_singular_past"
                 },
-                "with_article": {
-                    "Nf": "nominative_plural_article",
-                    "Þf": "accusative_plural_article",
-                    "Þgf": "dative_plural_article",
-                    "Ef": "genitive_plural_article"
+                "plural": {
+                    "1": "1st_person_plural_past",
+                    "2": "2nd_person_plural_past",
+                    "3": "3rd_person_plural_past"
                 }
             }
         },
-        "past": {
-            // Same structure as present
-            "singular": {
-                "no_article": {"Nf": "...", "Þf": "...", "Þgf": "...", "Ef": "..."},
-                "with_article": {"Nf": "...", "Þf": "...", "Þgf": "...", "Ef": "..."}
-            },
-            "plural": {
-                "no_article": {"Nf": "...", "Þf": "...", "Þgf": "...", "Ef": "..."},
-                "with_article": {"Nf": "...", "Þf": "...", "Þgf": "...", "Ef": "..."}
+        "ui": {
+            "pronouns": {
+                "singular": { "1": "ég", "2": "þú", "3": "hann / hún / það" },
+                "plural":   { "1": "við", "2": "þið", "3": "þeir / þær / þau" }
             }
         }
     }
