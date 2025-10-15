@@ -5,10 +5,10 @@ This is a standalone HTML game for practicing Icelandic verb conjugations. It's 
 
 ## 🎮 Features
 - **Two Game Modes:**
-  - Fill in the Blank: Type the correct conjugations
-  - Drag & Drop: Drag verb forms to the correct slots
+  - Fill in the Blank: Type the correct conjugations for each person
+  - Drag & Drop: Drag verb forms to match pronouns
 - **Multiple Verbs:** Dropdown selector to choose different verbs
-- **Tense Toggle:** Switch between Present and Past tense
+- **Tense Toggle:** Switch between Nútíð (Present) and Þátíð (Past)
 - **Show Answers:** Learning mode to view correct answers
 - **Real-time Feedback:** Instant validation with color-coded responses
 - **Progress Tracking:** Score display showing percentage and correct count
