@@ -900,22 +900,23 @@
     </script>
 
     <script>
-      // AUTO-RESIZE FOR LEARNWORLDS IFRAME
+      // AUTO-RESIZE FOR LEARNWORLDS IFRAME (debounced, no extra buffer)
       (function () {
+        let timer;
         function postHeight() {
-          const h = Math.max(
-            document.body.scrollHeight,
-            document.documentElement.scrollHeight
-          );
-          // Send height to parent (LearnWorlds)
-          parent.postMessage({ type: 'IFRAME_HEIGHT', height: h + 16 }, '*');
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            const h = Math.max(
+              document.body.scrollHeight,
+              document.documentElement.scrollHeight
+            );
+            parent.postMessage({ type: 'IFRAME_HEIGHT', height: h }, '*');
+          }, 100);
         }
 
-        // Watch for size changes and send height updates
         const ro = new ResizeObserver(postHeight);
         ro.observe(document.body);
 
-        // Post height again on load and on mode/verb/tense changes
         window.addEventListener('load', postHeight);
         ['verbSelect','tenseSelect'].forEach(id => {
           const el = document.getElementById(id);
@@ -923,7 +924,7 @@
         });
 
         document.querySelectorAll('.mode-tab')
-          .forEach(tab => tab.addEventListener('click', () => setTimeout(postHeight, 250)));
+          .forEach(tab => tab.addEventListener('click', () => setTimeout(postHeight, 150)));
       })();
     </script>
 </body>
