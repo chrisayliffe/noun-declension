@@ -589,9 +589,9 @@
         // Initialize game
         function init() {
             // Handle tense visibility based on CONFIG
-            const tenseGroup = document.querySelector('.control-group:has(#tenseSelect)');
-            if (!CONFIG.showTenses && tenseGroup) {
-                tenseGroup.style.display = 'none';
+            const tenseControl = document.getElementById('tenseControl');
+            if (!CONFIG.showTenses && tenseControl) {
+                tenseControl.style.display = 'none';
                 // Default to present tense
                 document.getElementById('tenseSelect').value = 'present';
             }
