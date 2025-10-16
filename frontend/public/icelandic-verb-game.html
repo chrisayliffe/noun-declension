@@ -588,6 +588,14 @@
 
         // Initialize game
         function init() {
+            // Handle tense visibility based on CONFIG
+            const tenseGroup = document.querySelector('.control-group:has(#tenseSelect)');
+            if (!CONFIG.showTenses && tenseGroup) {
+                tenseGroup.style.display = 'none';
+                // Default to present tense
+                document.getElementById('tenseSelect').value = 'present';
+            }
+            
             document.getElementById('verbSelect').addEventListener('change', resetGame);
             document.getElementById('tenseSelect').addEventListener('change', resetGame);
             resetGame();
