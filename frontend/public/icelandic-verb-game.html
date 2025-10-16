@@ -889,5 +889,33 @@
         // Initialize on load
         window.addEventListener('DOMContentLoaded', init);
     </script>
+
+    <script>
+      // AUTO-RESIZE FOR LEARNWORLDS IFRAME
+      (function () {
+        function postHeight() {
+          const h = Math.max(
+            document.body.scrollHeight,
+            document.documentElement.scrollHeight
+          );
+          // Send height to parent (LearnWorlds)
+          parent.postMessage({ type: 'IFRAME_HEIGHT', height: h + 16 }, '*');
+        }
+
+        // Watch for size changes and send height updates
+        const ro = new ResizeObserver(postHeight);
+        ro.observe(document.body);
+
+        // Post height again on load and on mode/verb/tense changes
+        window.addEventListener('load', postHeight);
+        ['verbSelect','tenseSelect'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.addEventListener('change', postHeight);
+        });
+
+        document.querySelectorAll('.mode-tab')
+          .forEach(tab => tab.addEventListener('click', () => setTimeout(postHeight, 250)));
+      })();
+    </script>
 </body>
 </html>
