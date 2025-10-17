@@ -1,0 +1,118 @@
+GOOGLE SHEET TEMPLATE - COPY THIS INTO YOUR SHEET
+
+================================
+TAB NAME: Lesson 1
+================================
+
+ROW 1:
+LESSON_TITLE	Lesson 1: Basic Verbs - Nútíð
+
+ROW 2:
+LESSON_SUBTITLE	Practice present tense conjugations
+
+ROW 3:
+SHOW_TENSES	no
+
+ROW 4:
+[Leave empty]
+
+ROW 5 (Headers):
+Verb	Tense	ég	þú	hann/hún/það	við	þið	þeir/þær/þau
+
+ROW 6+:
+drekka	present	drekk	drekkur	drekkur	drekkum	drekkið	drekka
+borða	present	borða	borðar	borðar	borðum	borðið	borða
+
+
+================================
+TAB NAME: Lesson 2
+================================
+
+ROW 1:
+LESSON_TITLE	Lesson 2: Both Tenses
+
+ROW 2:
+LESSON_SUBTITLE	Practice present and past tense conjugations
+
+ROW 3:
+SHOW_TENSES	yes
+
+ROW 4:
+[Leave empty]
+
+ROW 5 (Headers):
+Verb	Tense	ég	þú	hann/hún/það	við	þið	þeir/þær/þau
+
+ROW 6+:
+drekka	present	drekk	drekkur	drekkur	drekkum	drekkið	drekka
+drekka	past	drakk	drakkst	drakk	drukkum	drukkuð	drukku
+borða	present	borða	borðar	borðar	borðum	borðið	borða
+borða	past	borðaði	borðaðir	borðaði	borðuðum	borðuðuð	borðuðu
+fara	present	fer	ferð	fer	förum	farið	fara
+fara	past	fór	fórst	fór	fórum	fóruð	fóru
+
+
+================================
+TAB NAME: Advanced
+================================
+
+ROW 1:
+LESSON_TITLE	Advanced: Irregular Verbs
+
+ROW 2:
+LESSON_SUBTITLE	Challenge yourself with complex conjugations
+
+ROW 3:
+SHOW_TENSES	yes
+
+ROW 4:
+[Leave empty]
+
+ROW 5 (Headers):
+Verb	Tense	ég	þú	hann/hún/það	við	þið	þeir/þær/þau
+
+ROW 6+:
+[Add your verbs here following the same pattern]
+
+
+================================
+INSTRUCTIONS
+================================
+
+1. Each tab = one lesson
+2. Tab name must match exactly what you put in URL: ?lesson=TAB_NAME
+3. SHOW_TENSES values:
+   - "yes" = Show tense dropdown (both Nútíð and Þátíð)
+   - "no" = Hide tense dropdown (only Nútíð)
+4. Tense values must be lowercase: "present" or "past"
+5. Each verb needs a row for present tense
+6. Each verb needs a row for past tense (if SHOW_TENSES = yes)
+7. All conjugation columns must be filled (C through H)
+
+================================
+COLUMN MAPPING
+================================
+
+Column A = Verb infinitive
+Column B = Tense (present or past)
+Column C = ég (1st person singular)
+Column D = þú (2nd person singular)
+Column E = hann/hún/það (3rd person singular)
+Column F = við (1st person plural)
+Column G = þið (2nd person plural)
+Column H = þeir/þær/þau (3rd person plural)
+
+================================
+URL EXAMPLES
+================================
+
+For "Lesson 1" tab:
+game.html?lesson=Lesson 1
+
+For "Lesson 2" tab:
+game.html?lesson=Lesson 2
+
+For "Advanced" tab:
+game.html?lesson=Advanced
+
+Note: Spaces in tab names are fine!
