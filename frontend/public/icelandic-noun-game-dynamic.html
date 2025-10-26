@@ -744,15 +744,6 @@
                     }
                     row.appendChild(pluralCell);
                 }
-                } else {
-                    const input = document.createElement('input');
-                    input.type = 'text';
-                    input.dataset.correct = data.plural[caseKey];
-                    input.dataset.number = 'plural';
-                    input.dataset.case = caseKey;
-                    pluralCell.appendChild(input);
-                }
-                row.appendChild(pluralCell);
 
                 table.appendChild(row);
             });
