@@ -9,10 +9,10 @@ Instructions:
 
 ---START COPYING FROM BELOW THIS LINE---
 
-LESSON_TITLE	Lesson 1: Basic Nouns - Demo
-LESSON_SUBTITLE	Practice noun declensions in all cases
-		
-		
+LESSON_TITLE	Lesson 1: Basic Nouns - Demo			
+LESSON_SUBTITLE	Practice noun declensions in all cases			
+SHOW_PLURAL	true	VISIBLE_CASES	Nf,Þf,Þgf,Ef
+				
 Noun	Article	Number	Nf.	Þf.	Þgf.	Ef.
 hestur	no_article	singular	hestur	hest	hesti	hests
 hestur	no_article	plural	hestar	hesta	hestum	hesta
@@ -24,6 +24,26 @@ kona	with_article	singular	konan	konuna	konunni	konunnar
 kona	with_article	plural	konurnar	konurnar	konunum	kvennanna
 
 ---STOP COPYING AT ABOVE THIS LINE---
+
+CONFIGURATION OPTIONS EXPLAINED
+=================================================
+
+Row 3 contains two configuration options:
+
+1. SHOW_PLURAL (Column B):
+   - Set to "true" to show both singular AND plural columns
+   - Set to "false" to show ONLY singular columns
+   - Example: If teaching beginners, use "false" to simplify
+
+2. VISIBLE_CASES (Column D):
+   - Comma-separated list of which cases to display
+   - Default: "Nf,Þf,Þgf,Ef" (all 4 cases)
+   - Examples:
+     * "Nf,Þf" = Show only Nominative and Accusative
+     * "Nf" = Show only Nominative case
+     * "Nf,Þgf,Ef" = Hide Accusative case
+
+=================================================
 
 Note: The spacing between columns represents TAB characters. When you paste into Google Sheets, it will automatically separate into columns.
 
