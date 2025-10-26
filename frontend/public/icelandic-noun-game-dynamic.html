@@ -598,7 +598,23 @@
 
             try {
                 const rows = await fetchGoogleSheetData(lessonName);
+                
+                // Debug: Log first few rows to console
+                console.log('Total rows:', rows.length);
+                console.log('First 6 rows:', rows.slice(0, 6).map((r, i) => ({
+                    index: i,
+                    cells: r.c?.map(c => c?.v)
+                })));
+                
                 const data = parseSheetData(rows);
+                
+                console.log('Parsed data:', {
+                    title: data.title,
+                    subtitle: data.subtitle,
+                    showPlural: data.showPlural,
+                    visibleCases: data.visibleCases,
+                    nounCount: data.nounData.length
+                });
 
                 NOUN_DATA = data.nounData;
                 SHOW_PLURAL = data.showPlural;
