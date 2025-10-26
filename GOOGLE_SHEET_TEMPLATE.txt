@@ -1,0 +1,68 @@
+COPY THIS INTO YOUR GOOGLE SHEET "Lesson 1" TAB
+=================================================
+
+Instructions:
+1. Select cell A1 in your Google Sheet
+2. Copy all the text below (from "LESSON_TITLE" to "kvennanna")
+3. Paste into your sheet starting at A1
+4. The columns should auto-separate by tabs
+
+---START COPYING FROM BELOW THIS LINE---
+
+LESSON_TITLE	Lesson 1: Basic Nouns - Demo
+LESSON_SUBTITLE	Practice noun declensions in all cases
+		
+		
+Noun	Article	Number	Nf.	Þf.	Þgf.	Ef.
+hestur	no_article	singular	hestur	hest	hesti	hests
+hestur	no_article	plural	hestar	hesta	hestum	hesta
+hestur	with_article	singular	hesturinn	hestinn	hestinum	hestsins
+hestur	with_article	plural	hestarnir	hestana	hestunum	hestanna
+kona	no_article	singular	kona	konu	konu	konu
+kona	no_article	plural	konur	konur	konum	kvenna
+kona	with_article	singular	konan	konuna	konunni	konunnar
+kona	with_article	plural	konurnar	konurnar	konunum	kvennanna
+
+---STOP COPYING AT ABOVE THIS LINE---
+
+Note: The spacing between columns represents TAB characters. When you paste into Google Sheets, it will automatically separate into columns.
+
+=================================================
+
+ADDING MORE NOUNS
+=================================================
+
+For each new noun, add 4 rows following this pattern:
+
+barn	no_article	singular	barn	barn	barni	barns
+barn	no_article	plural	börn	börn	börnum	barna
+barn	with_article	singular	barnið	barnið	barninu	barnsins
+barn	with_article	plural	börnin	börnin	börnunum	barnanna
+
+hundur	no_article	singular	hundur	hund	hundi	hunds
+hundur	no_article	plural	hundar	hunda	hundum	hunda
+hundur	with_article	singular	hundurinn	hundinn	hundinum	hundsins
+hundur	with_article	plural	hundarnir	hundana	hundunum	hundanna
+
+köttur	no_article	singular	köttur	kött	ketti	kattar
+köttur	no_article	plural	kettir	ketti	köttum	katta
+köttur	with_article	singular	kötturinn	köttinn	kettinum	kattarins
+köttur	with_article	plural	kettirnir	kettina	köttunum	kattanna
+
+=================================================
+
+CREATING A NEW LESSON TAB
+=================================================
+
+1. Right-click on "Lesson 1" tab at bottom
+2. Click "Duplicate"
+3. Rename the new tab (e.g., "Animals", "Lesson 2", etc.)
+4. Replace the data with new nouns
+5. Update Row 1 & 2 with new title/subtitle
+6. Access via: ?lesson=YOUR_TAB_NAME
+
+Example:
+If tab is named "Animals", URL becomes:
+https://YOUR-DOMAIN/icelandic-noun-game-dynamic.html?lesson=Animals
+
+=================================================
