@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icelandic Noun Declension Practice</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #ffffff;
+            color: #121212;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px;
+            box-sizing: border-box;
+            max-height: 100vh;
+            overflow: visible;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .error {
+            text-align: center;
+            padding: 40px;
+            color: #f15d4e;
+            background: #fef2f2;
+            border-radius: 8px;
+            margin: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #121212;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 16px;
+        }
+
+        .controls {
+            background: #f9f9f9;
+            padding: 14px;
+            border-radius: 10px;
+            margin-bottom: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .control-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #121212;
+        }
+
+        select, button {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.0625rem;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #121212;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        select:hover, select:focus {
+            border-color: #21b766;
+            outline: none;
+        }
+
+        button {
+            font-weight: 600;
+            border: none;
+            background: #21b766;
+            color: white;
+        }
+
+        button:hover {
+            background: #1a9654;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(33, 183, 102, 0.3);
+        }
+
+        button.secondary {
+            background: #121212;
+        }
+
+        button.secondary:hover {
+            background: #333;
+        }
+
+        .mode-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .mode-tab {
+            flex: 1;
+            padding: 14px;
+            background: #f0f0f0;
+            border: 2px solid transparent;
+            color: #666;
+            font-weight: 600;
+            font-size: 1.0625rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mode-tab.active {
+            background: white;
+            border-color: #21b766;
+            color: #21b766;
+            box-shadow: 0 2px 8px rgba(33, 183, 102, 0.1);
+        }
+
+        .game-area {
+            background: white;
+            padding: 18px;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            margin-bottom: 8px;
+        }
+
+        .tables-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .table-section {
+            background: #fafafa;
+            padding: 16px;
+            border-radius: 8px;
+        }
+
+        .table-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #121212;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        table {
+            table-layout: fixed;
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 12px;
+        }
+
+        th, td {
+            padding: 10px 8px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+            font-size: 0.9375rem;
+        }
+
+        th {
+            background: #f5f5f5;
+            font-weight: 600;
+            color: #121212;
+            font-size: 1rem;
+        }
+
+        th.case-header {
+            background: #e8f5e9;
+        }
+
+        td {
+            background: white;
+        }
+
+        .case-label {
+            display: block;
+            font-weight: 600;
+        }
+
+        .case-english {
+            display: block;
+            font-size: 0.8125rem;
+            color: #666;
+            font-weight: 400;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.0625rem;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #21b766;
+        }
+
+        input.correct {
+            border-color: #21b766;
+            background: #f0fdf4;
+        }
+
+        input.incorrect {
+            border-color: #f15d4e;
+            background: #fef2f2;
+        }
+
+        .drag-tiles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+            min-height: 90px;
+            max-height: 180px;
+            overflow-y: auto;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 2px dashed #ddd;
+        }
+
+        .tile {
+            padding: 8px 14px;
+            background: white;
+            border: 2px solid #21b766;
+            border-radius: 6px;
+            cursor: grab;
+            user-select: none;
+            font-weight: 500;
+            font-size: 0.9375rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .tile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .tile.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        .drop-zone {
+            min-height: 40px;
+            background: #f9f9f9;
+            border: 2px dashed #ddd;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .drop-zone.drag-over {
+            background: #e8f5e9;
+            border-color: #21b766;
+        }
+
+        .drop-zone .tile {
+            border-style: solid;
+            cursor: pointer;
+        }
+
+        .drop-zone.correct {
+            background: #f0fdf4;
+            border-color: #21b766;
+        }
+
+        .drop-zone.incorrect {
+            background: #fef2f2;
+            border-color: #f15d4e;
+        }
+
+        .score {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .score-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 1.0625rem;
+        }
+
+        .score-value {
+            font-size: 1.625rem;
+            color: #21b766;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .actions button {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .feedback {
+            padding: 14px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-weight: 600;
+            font-size: 1.0625rem;
+            text-align: center;
+        }
+
+        .feedback.success {
+            background: #f0fdf4;
+            color: #21b766;
+            border: 2px solid #21b766;
+        }
+
+        .feedback.error {
+            background: #fef2f2;
+            color: #f15d4e;
+            border: 2px solid #f15d4e;
+        }
+
+        @media (max-width: 1024px) {
+            .tables-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 15px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .game-area {
+                padding: 12px;
+            }
+
+            table {
+                font-size: 0.875rem;
+            }
+
+            th, td {
+                padding: 8px 6px;
+                font-size: 0.875rem;
+            }
+
+            .tile {
+                font-size: 0.875rem;
+                padding: 6px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="loadingMessage" class="loading">Loading lesson data...</div>
+        <div id="errorMessage" class="error hidden"></div>
+        <div id="gameContent" class="hidden">
+            <h1 id="lessonTitle">Icelandic Noun Declension Practice</h1>
+            <p class="subtitle" id="lessonSubtitle">Practice noun declensions in all cases</p>
+
+            <div class="controls">
+                <div class="control-row">
+                    <div class="control-group">
+                        <label for="nounSelect">Select Noun:</label>
+                        <select id="nounSelect"></select>
+                    </div>
+                    <div class="control-group">
+                        <label>&nbsp;</label>
+                        <button onclick="toggleAnswers()">Show Answers</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mode-tabs">
+                <div class="mode-tab active" onclick="switchMode('fill')">
+                    Fill in the Blank
+                </div>
+                <div class="mode-tab" onclick="switchMode('drag')">
+                    Drag & Drop
+                </div>
+            </div>
+
+            <div class="score">
+                <div class="score-item">
+                    <span>Progress:</span>
+                    <span class="score-value" id="scoreDisplay">0%</span>
+                </div>
+                <div class="score-item">
+                    <span>Correct:</span>
+                    <span class="score-value" id="correctCount">0</span>
+                </div>
+            </div>
+
+            <div class="game-area">
+                <div id="fillMode">
+                    <div class="tables-container" id="fillTablesContainer"></div>
+                    <div class="actions">
+                        <button onclick="checkAnswers()">Check Answers</button>
+                        <button class="secondary" onclick="resetGame()">Reset</button>
+                    </div>
+                </div>
+
+                <div id="dragMode" class="hidden">
+                    <div class="drag-tiles" id="dragTiles"></div>
+                    <div class="tables-container" id="dragTablesContainer"></div>
+                    <div class="actions">
+                        <button onclick="checkDragAnswers()">Check Answers</button>
+                        <button class="secondary" onclick="resetGame()">Reset</button>
+                    </div>
+                </div>
+
+                <div id="feedback"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // GOOGLE SHEETS CONFIGURATION
+        const GOOGLE_SHEET_ID = '1N3yATmYOAyN1Nfw25IuXl3Dpwx9cxox8G4F-_yyutz8';
+        
+        // Case information
+        const CASES = {
+            'Nf': { icelandic: 'Nefnifall', english: 'Nominative' },
+            'Þf': { icelandic: 'Þolfall', english: 'Accusative' },
+            'Þgf': { icelandic: 'Þágufall', english: 'Dative' },
+            'Ef': { icelandic: 'Eignarfall', english: 'Genitive' }
+        };
+
+        // Global variables
+        let NOUN_DATA = [];
+        let currentMode = 'fill';
+        let showingAnswers = false;
+        let draggedElement = null;
+
+        // Get lesson name from URL parameter
+        function getLessonFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('lesson') || 'Lesson 1';
+        }
+
+        // Fetch data from Google Sheets
+        async function fetchGoogleSheetData(sheetName) {
+            try {
+                const url = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
+                const response = await fetch(url);
+                const text = await response.text();
+                const json = JSON.parse(text.substring(47).slice(0, -2));
+                return json.table.rows;
+            } catch (error) {
+                throw new Error(`Failed to load lesson "${sheetName}". Please check the sheet name and sharing settings.`);
+            }
+        }
+
+        // Parse Google Sheet data into game format
+        function parseSheetData(rows) {
+            if (!rows || rows.length < 4) {
+                throw new Error('Sheet data is incomplete. Please check the sheet structure.');
+            }
+
+            // Parse configuration (first 3 rows)
+            const title = rows[0].c[1]?.v || 'Icelandic Noun Declension Practice';
+            const subtitle = rows[1].c[1]?.v || 'Practice noun declensions';
+
+            // Parse noun data (starting from row 4)
+            const nouns = {};
+            for (let i = 4; i < rows.length; i++) {
+                const row = rows[i];
+                if (!row.c || !row.c[0]) continue;
+
+                const noun = row.c[0]?.v;
+                const article = row.c[1]?.v; // 'no_article' or 'with_article'
+                const number = row.c[2]?.v; // 'singular' or 'plural'
+                
+                if (!noun || !article || !number) continue;
+
+                if (!nouns[noun]) {
+                    nouns[noun] = {
+                        noun: noun,
+                        no_article: { singular: {}, plural: {} },
+                        with_article: { singular: {}, plural: {} }
+                    };
+                }
+
+                // Columns: C=Nf, D=Þf, E=Þgf, F=Ef
+                nouns[noun][article][number] = {
+                    'Nf': row.c[3]?.v || '',
+                    'Þf': row.c[4]?.v || '',
+                    'Þgf': row.c[5]?.v || '',
+                    'Ef': row.c[6]?.v || ''
+                };
+            }
+
+            return {
+                title,
+                subtitle,
+                nounData: Object.values(nouns)
+            };
+        }
+
+        // Initialize game with Google Sheet data
+        async function initializeGame() {
+            const lessonName = getLessonFromURL();
+            document.getElementById('loadingMessage').textContent = `Loading "${lessonName}"...`;
+
+            try {
+                const rows = await fetchGoogleSheetData(lessonName);
+                const data = parseSheetData(rows);
+
+                NOUN_DATA = data.nounData;
+
+                // Update UI
+                document.getElementById('lessonTitle').textContent = data.title;
+                document.getElementById('lessonSubtitle').textContent = data.subtitle;
+
+                // Populate noun dropdown
+                const nounSelect = document.getElementById('nounSelect');
+                nounSelect.innerHTML = '';
+                NOUN_DATA.forEach((noun, index) => {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    option.textContent = noun.noun;
+                    nounSelect.appendChild(option);
+                });
+
+                // Show game content
+                document.getElementById('loadingMessage').classList.add('hidden');
+                document.getElementById('gameContent').classList.remove('hidden');
+
+                // Initialize game
+                init();
+            } catch (error) {
+                document.getElementById('loadingMessage').classList.add('hidden');
+                document.getElementById('errorMessage').textContent = error.message;
+                document.getElementById('errorMessage').classList.remove('hidden');
+            }
+        }
+
+        function init() {
+            document.getElementById('nounSelect').addEventListener('change', resetGame);
+            resetGame();
+        }
+
+        function getCurrentNoun() {
+            const nounIndex = parseInt(document.getElementById('nounSelect').value);
+            return NOUN_DATA[nounIndex];
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (mode === 'fill') {
+                document.getElementById('fillMode').classList.remove('hidden');
+                document.getElementById('dragMode').classList.add('hidden');
+            } else {
+                document.getElementById('fillMode').classList.add('hidden');
+                document.getElementById('dragMode').classList.remove('hidden');
+            }
+            
+            resetGame();
+        }
+
+        function createFillTables() {
+            const noun = getCurrentNoun();
+            const container = document.getElementById('fillTablesContainer');
+            container.innerHTML = '';
+
+            // Create table without article
+            const noArticleSection = document.createElement('div');
+            noArticleSection.className = 'table-section';
+            noArticleSection.innerHTML = '<div class="table-title">Án greinis (Without Article)</div>';
+            
+            const noArticleTable = createDeclensionTable(noun.no_article, false);
+            noArticleSection.appendChild(noArticleTable);
+            container.appendChild(noArticleSection);
+
+            // Create table with article
+            const withArticleSection = document.createElement('div');
+            withArticleSection.className = 'table-section';
+            withArticleSection.innerHTML = '<div class="table-title">Með greini (With Article)</div>';
+            
+            const withArticleTable = createDeclensionTable(noun.with_article, false);
+            withArticleSection.appendChild(withArticleTable);
+            container.appendChild(withArticleSection);
+        }
+
+        function createDeclensionTable(data, isDragMode) {
+            const table = document.createElement('table');
+
+            // Header row
+            const headerRow = document.createElement('tr');
+            headerRow.innerHTML = '<th></th><th>Eintala (Singular)</th><th>Fleirtala (Plural)</th>';
+            table.appendChild(headerRow);
+
+            // Case rows
+            ['Nf', 'Þf', 'Þgf', 'Ef'].forEach(caseKey => {
+                const row = document.createElement('tr');
+                
+                const caseHeader = document.createElement('th');
+                caseHeader.className = 'case-header';
+                caseHeader.innerHTML = `
+                    <span class="case-label">${caseKey}. ${CASES[caseKey].icelandic}</span>
+                    <span class="case-english">${CASES[caseKey].english}</span>
+                `;
+                row.appendChild(caseHeader);
+
+                // Singular cell
+                const singularCell = document.createElement('td');
+                if (isDragMode) {
+                    const dropZone = document.createElement('div');
+                    dropZone.className = 'drop-zone';
+                    dropZone.dataset.correct = data.singular[caseKey];
+                    dropZone.dataset.number = 'singular';
+                    dropZone.dataset.case = caseKey;
+                    dropZone.addEventListener('dragover', handleDragOver);
+                    dropZone.addEventListener('drop', handleDrop);
+                    dropZone.addEventListener('dragleave', handleDragLeave);
+                    dropZone.addEventListener('click', handleDropZoneClick);
+                    singularCell.appendChild(dropZone);
+                } else {
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.dataset.correct = data.singular[caseKey];
+                    input.dataset.number = 'singular';
+                    input.dataset.case = caseKey;
+                    singularCell.appendChild(input);
+                }
+                row.appendChild(singularCell);
+
+                // Plural cell
+                const pluralCell = document.createElement('td');
+                if (isDragMode) {
+                    const dropZone = document.createElement('div');
+                    dropZone.className = 'drop-zone';
+                    dropZone.dataset.correct = data.plural[caseKey];
+                    dropZone.dataset.number = 'plural';
+                    dropZone.dataset.case = caseKey;
+                    dropZone.addEventListener('dragover', handleDragOver);
+                    dropZone.addEventListener('drop', handleDrop);
+                    dropZone.addEventListener('dragleave', handleDragLeave);
+                    dropZone.addEventListener('click', handleDropZoneClick);
+                    pluralCell.appendChild(dropZone);
+                } else {
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.dataset.correct = data.plural[caseKey];
+                    input.dataset.number = 'plural';
+                    input.dataset.case = caseKey;
+                    pluralCell.appendChild(input);
+                }
+                row.appendChild(pluralCell);
+
+                table.appendChild(row);
+            });
+
+            return table;
+        }
+
+        function createDragTables() {
+            const noun = getCurrentNoun();
+            const container = document.getElementById('dragTablesContainer');
+            const tilesContainer = document.getElementById('dragTiles');
+            
+            container.innerHTML = '';
+            tilesContainer.innerHTML = '';
+
+            // Collect all forms
+            const allForms = [];
+            ['no_article', 'with_article'].forEach(article => {
+                ['singular', 'plural'].forEach(number => {
+                    ['Nf', 'Þf', 'Þgf', 'Ef'].forEach(caseKey => {
+                        allForms.push(noun[article][number][caseKey]);
+                    });
+                });
+            });
+
+            // Shuffle and create tiles
+            allForms.sort(() => Math.random() - 0.5);
+            allForms.forEach(form => {
+                const tile = document.createElement('div');
+                tile.className = 'tile';
+                tile.textContent = form;
+                tile.draggable = true;
+                tile.dataset.form = form;
+                tile.addEventListener('dragstart', handleDragStart);
+                tile.addEventListener('dragend', handleDragEnd);
+                tilesContainer.appendChild(tile);
+            });
+
+            // Create tables
+            const noArticleSection = document.createElement('div');
+            noArticleSection.className = 'table-section';
+            noArticleSection.innerHTML = '<div class="table-title">Án greinis (Without Article)</div>';
+            noArticleSection.appendChild(createDeclensionTable(noun.no_article, true));
+            container.appendChild(noArticleSection);
+
+            const withArticleSection = document.createElement('div');
+            withArticleSection.className = 'table-section';
+            withArticleSection.innerHTML = '<div class="table-title">Með greini (With Article)</div>';
+            withArticleSection.appendChild(createDeclensionTable(noun.with_article, true));
+            container.appendChild(withArticleSection);
+        }
+
+        function handleDragStart(e) {
+            draggedElement = e.target;
+            e.target.classList.add('dragging');
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            e.currentTarget.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('drag-over');
+            
+            const dropZone = e.currentTarget;
+            const existingTile = dropZone.querySelector('.tile');
+            if (existingTile) {
+                document.getElementById('dragTiles').appendChild(existingTile);
+            }
+            
+            dropZone.appendChild(draggedElement);
+            draggedElement = null;
+        }
+
+        function handleDropZoneClick(e) {
+            const dropZone = e.currentTarget;
+            const tile = dropZone.querySelector('.tile');
+            if (tile) {
+                document.getElementById('dragTiles').appendChild(tile);
+            }
+        }
+
+        function checkAnswers() {
+            const inputs = document.querySelectorAll('#fillTablesContainer input');
+            let correct = 0;
+            let total = inputs.length;
+
+            inputs.forEach(input => {
+                const userAnswer = input.value.trim().toLowerCase();
+                const correctAnswer = input.dataset.correct.trim().toLowerCase();
+                
+                if (userAnswer === correctAnswer) {
+                    input.classList.add('correct');
+                    input.classList.remove('incorrect');
+                    correct++;
+                } else if (userAnswer !== '') {
+                    input.classList.add('incorrect');
+                    input.classList.remove('correct');
+                } else {
+                    input.classList.remove('correct', 'incorrect');
+                }
+            });
+
+            updateScore(correct, total);
+            showFeedback(correct, total);
+        }
+
+        function checkDragAnswers() {
+            const dropZones = document.querySelectorAll('#dragTablesContainer .drop-zone');
+            let correct = 0;
+            let total = dropZones.length;
+
+            dropZones.forEach(zone => {
+                const tile = zone.querySelector('.tile');
+                if (tile) {
+                    const userAnswer = tile.dataset.form.trim().toLowerCase();
+                    const correctAnswer = zone.dataset.correct.trim().toLowerCase();
+                    
+                    if (userAnswer === correctAnswer) {
+                        zone.classList.add('correct');
+                        zone.classList.remove('incorrect');
+                        correct++;
+                    } else {
+                        zone.classList.add('incorrect');
+                        zone.classList.remove('correct');
+                    }
+                } else {
+                    zone.classList.remove('correct', 'incorrect');
+                }
+            });
+
+            updateScore(correct, total);
+            showFeedback(correct, total);
+        }
+
+        function updateScore(correct, total) {
+            const percentage = Math.round((correct / total) * 100);
+            document.getElementById('scoreDisplay').textContent = percentage + '%';
+            document.getElementById('correctCount').textContent = correct + '/' + total;
+        }
+
+        function showFeedback(correct, total) {
+            const feedback = document.getElementById('feedback');
+            feedback.className = 'feedback';
+            
+            if (correct === total) {
+                feedback.classList.add('success');
+                feedback.textContent = '🎉 Perfect! All declensions correct!';
+            } else if (correct > total / 2) {
+                feedback.classList.add('success');
+                feedback.textContent = `Good job! ${correct} out of ${total} correct.`;
+            } else {
+                feedback.classList.add('error');
+                feedback.textContent = `Keep practicing! ${correct} out of ${total} correct.`;
+            }
+        }
+
+        function toggleAnswers() {
+            showingAnswers = !showingAnswers;
+            const button = event.target;
+            
+            if (showingAnswers) {
+                button.textContent = 'Hide Answers';
+                if (currentMode === 'fill') {
+                    const inputs = document.querySelectorAll('#fillTablesContainer input');
+                    inputs.forEach(input => {
+                        input.value = input.dataset.correct;
+                        input.classList.add('correct');
+                    });
+                } else {
+                    const dropZones = document.querySelectorAll('#dragTablesContainer .drop-zone');
+                    dropZones.forEach(zone => {
+                        if (!zone.querySelector('.tile')) {
+                            const hint = document.createElement('span');
+                            hint.style.color = '#21b766';
+                            hint.style.fontSize = '0.875rem';
+                            hint.textContent = zone.dataset.correct;
+                            zone.appendChild(hint);
+                        }
+                    });
+                }
+            } else {
+                button.textContent = 'Show Answers';
+                if (currentMode === 'fill') {
+                    const inputs = document.querySelectorAll('#fillTablesContainer input');
+                    inputs.forEach(input => {
+                        input.value = '';
+                        input.classList.remove('correct', 'incorrect');
+                    });
+                } else {
+                    const dropZones = document.querySelectorAll('#dragTablesContainer .drop-zone');
+                    dropZones.forEach(zone => {
+                        const hint = zone.querySelector('span');
+                        if (hint) hint.remove();
+                    });
+                }
+            }
+        }
+
+        function resetGame() {
+            showingAnswers = false;
+            document.getElementById('feedback').innerHTML = '';
+            document.getElementById('scoreDisplay').textContent = '0%';
+            document.getElementById('correctCount').textContent = '0';
+            
+            const showAnswersBtn = document.querySelector('.controls button');
+            if (showAnswersBtn) showAnswersBtn.textContent = 'Show Answers';
+            
+            if (currentMode === 'fill') {
+                createFillTables();
+            } else {
+                createDragTables();
+            }
+        }
+
+        // Start the game when page loads
+        window.addEventListener('DOMContentLoaded', initializeGame);
+    </script>
+
+    <script>
+      // AUTO-RESIZE FOR LEARNWORLDS IFRAME
+      (function () {
+        let timer;
+        function postHeight() {
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            const h = Math.max(
+              document.body.scrollHeight,
+              document.documentElement.scrollHeight
+            );
+            parent.postMessage({ type: 'IFRAME_HEIGHT', height: h }, '*');
+          }, 100);
+        }
+
+        const ro = new ResizeObserver(postHeight);
+        ro.observe(document.body);
+
+        window.addEventListener('load', postHeight);
+        const nounSelect = document.getElementById('nounSelect');
+        if (nounSelect) nounSelect.addEventListener('change', postHeight);
+
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('mode-tab')) {
+                setTimeout(postHeight, 150);
+            }
+        });
+      })();
+    </script>
+</body>
+</html>
