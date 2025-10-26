@@ -587,6 +587,8 @@
                 const data = parseSheetData(rows);
 
                 NOUN_DATA = data.nounData;
+                SHOW_PLURAL = data.showPlural;
+                VISIBLE_CASES = data.visibleCases;
 
                 // Update UI
                 document.getElementById('lessonTitle').textContent = data.title;
