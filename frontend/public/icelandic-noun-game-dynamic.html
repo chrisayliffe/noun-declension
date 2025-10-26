@@ -534,27 +534,37 @@
             let dataStartIndex = 5;
 
             // Search for LESSON_TITLE, LESSON_SUBTITLE, SHOW_PLURAL in first 5 rows
+            console.log('Searching for configuration in first 5 rows...');
             for (let i = 0; i < Math.min(5, rows.length); i++) {
                 const row = rows[i];
-                const firstCell = getCellValue(row, 0).toString().toUpperCase();
+                const firstCell = getCellValue(row, 0).toString().trim().toUpperCase();
+                const secondCell = getCellValue(row, 1).toString().trim();
+                
+                console.log(`Row ${i}: Column A = "${firstCell}", Column B = "${secondCell}"`);
                 
                 if (firstCell === 'LESSON_TITLE') {
-                    title = getCellValue(row, 1) || title;
+                    title = secondCell || title;
+                    console.log(`✓ Found LESSON_TITLE: "${title}"`);
                 } else if (firstCell === 'LESSON_SUBTITLE') {
-                    subtitle = getCellValue(row, 1) || subtitle;
+                    subtitle = secondCell || subtitle;
+                    console.log(`✓ Found LESSON_SUBTITLE: "${subtitle}"`);
                 } else if (firstCell === 'SHOW_PLURAL') {
-                    const val = getCellValue(row, 1).toString().toLowerCase();
+                    const val = secondCell.toLowerCase();
                     showPlural = val !== 'false';
-                    const casesVal = getCellValue(row, 3);
+                    const casesVal = getCellValue(row, 3).toString().trim();
                     if (casesVal) {
-                        visibleCases = casesVal.toString().split(',').map(c => c.trim()).filter(c => c);
+                        visibleCases = casesVal.split(',').map(c => c.trim()).filter(c => c);
                     }
+                    console.log(`✓ Found SHOW_PLURAL: ${showPlural}, VISIBLE_CASES: ${visibleCases.join(',')}`);
                 } else if (firstCell === 'NOUN') {
                     // Found header row, data starts after this
                     dataStartIndex = i + 1;
+                    console.log(`✓ Found NOUN header at row ${i}, data starts at row ${dataStartIndex}`);
                     break;
                 }
             }
+
+            console.log(`Final config: title="${title}", subtitle="${subtitle}"`);
 
             // Parse noun data
             const nouns = {};
