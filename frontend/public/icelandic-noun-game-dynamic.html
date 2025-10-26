@@ -526,7 +526,7 @@
                 return row?.c?.[colIndex]?.v || '';
             };
 
-            // Find configuration rows by searching ALL rows (Google API may skip early rows)
+            // Find configuration rows by searching ALL rows
             let title = 'Icelandic Noun Declension Practice';
             let subtitle = 'Practice noun declensions';
             let showPlural = true;
@@ -538,21 +538,30 @@
             for (let i = 0; i < rows.length; i++) {
                 const row = rows[i];
                 const firstCell = getCellValue(row, 0).toString().trim().toUpperCase();
-                const secondCell = getCellValue(row, 1).toString().trim();
                 
-                if (firstCell === 'LESSON_TITLE') {
-                    title = secondCell || title;
-                    console.log(`✓ Found LESSON_TITLE at row ${i}: "${title}"`);
-                } else if (firstCell === 'LESSON_SUBTITLE') {
-                    subtitle = secondCell || subtitle;
-                    console.log(`✓ Found LESSON_SUBTITLE at row ${i}: "${subtitle}"`);
-                } else if (firstCell === 'SHOW_PLURAL') {
-                    const val = secondCell.toLowerCase();
-                    showPlural = val !== 'false';
+                if (firstCell === 'SHOW_PLURAL') {
+                    // Parse SHOW_PLURAL and VISIBLE_CASES
+                    const showPluralValue = getCellValue(row, 1).toString().toLowerCase();
+                    showPlural = showPluralValue !== 'false';
+                    
                     const casesVal = getCellValue(row, 3).toString().trim();
                     if (casesVal) {
                         visibleCases = casesVal.split(',').map(c => c.trim()).filter(c => c);
                     }
+                    
+                    // NEW: Get title from column E (index 4) and subtitle from column F (index 5)
+                    const titleValue = getCellValue(row, 4).toString().trim();
+                    const subtitleValue = getCellValue(row, 5).toString().trim();
+                    
+                    if (titleValue) {
+                        title = titleValue;
+                        console.log(`✓ Found title in SHOW_PLURAL row, column E: "${title}"`);
+                    }
+                    if (subtitleValue) {
+                        subtitle = subtitleValue;
+                        console.log(`✓ Found subtitle in SHOW_PLURAL row, column F: "${subtitle}"`);
+                    }
+                    
                     console.log(`✓ Found SHOW_PLURAL at row ${i}: ${showPlural}, VISIBLE_CASES: ${visibleCases.join(',')}`);
                 } else if (firstCell === 'NOUN') {
                     // Found header row, data starts after this
@@ -567,7 +576,6 @@
             }
 
             console.log(`Final config: title="${title}", subtitle="${subtitle}"`);
-            console.log('⚠️ Note: Google Sheets API may skip LESSON_TITLE/LESSON_SUBTITLE rows. Using:', { title, subtitle });
 
             // Parse noun data
             const nouns = {};
