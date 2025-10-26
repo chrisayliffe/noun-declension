@@ -517,19 +517,23 @@
 
         // Parse Google Sheet data into game format
         function parseSheetData(rows) {
-            if (!rows || rows.length < 4) {
+            if (!rows || rows.length < 5) {
                 throw new Error('Sheet data is incomplete. Please check the sheet structure.');
             }
 
             // Parse configuration (first 3 rows)
-            const title = rows[0].c[1]?.v || 'Icelandic Noun Declension Practice';
-            const subtitle = rows[1].c[1]?.v || 'Practice noun declensions';
+            const title = rows[0]?.c[1]?.v || 'Icelandic Noun Declension Practice';
+            const subtitle = rows[1]?.c[1]?.v || 'Practice noun declensions';
+            
+            // Parse optional configuration from row 3 (CONFIG row)
+            const showPlural = rows[2]?.c[1]?.v?.toLowerCase() !== 'false'; // Default true
+            const visibleCases = (rows[2]?.c[3]?.v || 'Nf,Þf,Þgf,Ef').split(',').map(c => c.trim());
 
-            // Parse noun data (starting from row 4)
+            // Parse noun data (starting from row 5, after headers in row 4)
             const nouns = {};
-            for (let i = 4; i < rows.length; i++) {
+            for (let i = 5; i < rows.length; i++) {
                 const row = rows[i];
-                if (!row.c || !row.c[0]) continue;
+                if (!row?.c || !row.c[0]?.v) continue;
 
                 const noun = row.c[0]?.v;
                 const article = row.c[1]?.v; // 'no_article' or 'with_article'
@@ -545,18 +549,28 @@
                     };
                 }
 
-                // Columns: C=Nf, D=Þf, E=Þgf, F=Ef
-                nouns[noun][article][number] = {
-                    'Nf': row.c[3]?.v || '',
-                    'Þf': row.c[4]?.v || '',
-                    'Þgf': row.c[5]?.v || '',
-                    'Ef': row.c[6]?.v || ''
-                };
+                // Columns: D=Nf (index 3), E=Þf (index 4), F=Þgf (index 5), G=Ef (index 6)
+                const nf = row.c[3]?.v;
+                const þf = row.c[4]?.v;
+                const þgf = row.c[5]?.v;
+                const ef = row.c[6]?.v;
+
+                // Only add if values exist (not null/undefined)
+                if (nf || þf || þgf || ef) {
+                    nouns[noun][article][number] = {
+                        'Nf': nf || '',
+                        'Þf': þf || '',
+                        'Þgf': þgf || '',
+                        'Ef': ef || ''
+                    };
+                }
             }
 
             return {
                 title,
                 subtitle,
+                showPlural,
+                visibleCases,
                 nounData: Object.values(nouns)
             };
         }
