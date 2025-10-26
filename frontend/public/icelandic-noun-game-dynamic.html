@@ -526,28 +526,26 @@
                 return row?.c?.[colIndex]?.v || '';
             };
 
-            // Find configuration rows by searching for keywords
+            // Find configuration rows by searching ALL rows (Google API may skip early rows)
             let title = 'Icelandic Noun Declension Practice';
             let subtitle = 'Practice noun declensions';
             let showPlural = true;
             let visibleCases = ['Nf', 'Þf', 'Þgf', 'Ef'];
-            let dataStartIndex = 5;
+            let dataStartIndex = -1;
 
-            // Search for LESSON_TITLE, LESSON_SUBTITLE, SHOW_PLURAL in first 5 rows
-            console.log('Searching for configuration in first 5 rows...');
-            for (let i = 0; i < Math.min(5, rows.length); i++) {
+            // Search through ALL rows for configuration keywords
+            console.log('Searching for configuration keywords...');
+            for (let i = 0; i < rows.length; i++) {
                 const row = rows[i];
                 const firstCell = getCellValue(row, 0).toString().trim().toUpperCase();
                 const secondCell = getCellValue(row, 1).toString().trim();
                 
-                console.log(`Row ${i}: Column A = "${firstCell}", Column B = "${secondCell}"`);
-                
                 if (firstCell === 'LESSON_TITLE') {
                     title = secondCell || title;
-                    console.log(`✓ Found LESSON_TITLE: "${title}"`);
+                    console.log(`✓ Found LESSON_TITLE at row ${i}: "${title}"`);
                 } else if (firstCell === 'LESSON_SUBTITLE') {
                     subtitle = secondCell || subtitle;
-                    console.log(`✓ Found LESSON_SUBTITLE: "${subtitle}"`);
+                    console.log(`✓ Found LESSON_SUBTITLE at row ${i}: "${subtitle}"`);
                 } else if (firstCell === 'SHOW_PLURAL') {
                     const val = secondCell.toLowerCase();
                     showPlural = val !== 'false';
@@ -555,7 +553,7 @@
                     if (casesVal) {
                         visibleCases = casesVal.split(',').map(c => c.trim()).filter(c => c);
                     }
-                    console.log(`✓ Found SHOW_PLURAL: ${showPlural}, VISIBLE_CASES: ${visibleCases.join(',')}`);
+                    console.log(`✓ Found SHOW_PLURAL at row ${i}: ${showPlural}, VISIBLE_CASES: ${visibleCases.join(',')}`);
                 } else if (firstCell === 'NOUN') {
                     // Found header row, data starts after this
                     dataStartIndex = i + 1;
@@ -564,7 +562,12 @@
                 }
             }
 
+            if (dataStartIndex === -1) {
+                throw new Error('Could not find "Noun" header row in sheet');
+            }
+
             console.log(`Final config: title="${title}", subtitle="${subtitle}"`);
+            console.log('⚠️ Note: Google Sheets API may skip LESSON_TITLE/LESSON_SUBTITLE rows. Using:', { title, subtitle });
 
             // Parse noun data
             const nouns = {};
