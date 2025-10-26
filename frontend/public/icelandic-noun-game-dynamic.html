@@ -670,13 +670,19 @@
         function createDeclensionTable(data, isDragMode) {
             const table = document.createElement('table');
 
-            // Header row
+            // Header row - conditionally show plural column
             const headerRow = document.createElement('tr');
-            headerRow.innerHTML = '<th></th><th>Eintala (Singular)</th><th>Fleirtala (Plural)</th>';
+            let headerHTML = '<th></th><th>Eintala (Singular)</th>';
+            if (SHOW_PLURAL) {
+                headerHTML += '<th>Fleirtala (Plural)</th>';
+            }
+            headerRow.innerHTML = headerHTML;
             table.appendChild(headerRow);
 
-            // Case rows
-            ['Nf', 'Þf', 'Þgf', 'Ef'].forEach(caseKey => {
+            // Case rows - only show visible cases
+            VISIBLE_CASES.forEach(caseKey => {
+                if (!CASES[caseKey]) return; // Skip if case doesn't exist
+                
                 const row = document.createElement('tr');
                 
                 const caseHeader = document.createElement('th');
@@ -689,10 +695,12 @@
 
                 // Singular cell
                 const singularCell = document.createElement('td');
+                const singularValue = data?.singular?.[caseKey] || '';
+                
                 if (isDragMode) {
                     const dropZone = document.createElement('div');
                     dropZone.className = 'drop-zone';
-                    dropZone.dataset.correct = data.singular[caseKey];
+                    dropZone.dataset.correct = singularValue;
                     dropZone.dataset.number = 'singular';
                     dropZone.dataset.case = caseKey;
                     dropZone.addEventListener('dragover', handleDragOver);
@@ -703,26 +711,39 @@
                 } else {
                     const input = document.createElement('input');
                     input.type = 'text';
-                    input.dataset.correct = data.singular[caseKey];
+                    input.dataset.correct = singularValue;
                     input.dataset.number = 'singular';
                     input.dataset.case = caseKey;
                     singularCell.appendChild(input);
                 }
                 row.appendChild(singularCell);
 
-                // Plural cell
-                const pluralCell = document.createElement('td');
-                if (isDragMode) {
-                    const dropZone = document.createElement('div');
-                    dropZone.className = 'drop-zone';
-                    dropZone.dataset.correct = data.plural[caseKey];
-                    dropZone.dataset.number = 'plural';
-                    dropZone.dataset.case = caseKey;
-                    dropZone.addEventListener('dragover', handleDragOver);
-                    dropZone.addEventListener('drop', handleDrop);
-                    dropZone.addEventListener('dragleave', handleDragLeave);
-                    dropZone.addEventListener('click', handleDropZoneClick);
-                    pluralCell.appendChild(dropZone);
+                // Plural cell - only add if SHOW_PLURAL is true
+                if (SHOW_PLURAL) {
+                    const pluralCell = document.createElement('td');
+                    const pluralValue = data?.plural?.[caseKey] || '';
+                    
+                    if (isDragMode) {
+                        const dropZone = document.createElement('div');
+                        dropZone.className = 'drop-zone';
+                        dropZone.dataset.correct = pluralValue;
+                        dropZone.dataset.number = 'plural';
+                        dropZone.dataset.case = caseKey;
+                        dropZone.addEventListener('dragover', handleDragOver);
+                        dropZone.addEventListener('drop', handleDrop);
+                        dropZone.addEventListener('dragleave', handleDragLeave);
+                        dropZone.addEventListener('click', handleDropZoneClick);
+                        pluralCell.appendChild(dropZone);
+                    } else {
+                        const input = document.createElement('input');
+                        input.type = 'text';
+                        input.dataset.correct = pluralValue;
+                        input.dataset.number = 'plural';
+                        input.dataset.case = caseKey;
+                        pluralCell.appendChild(input);
+                    }
+                    row.appendChild(pluralCell);
+                }
                 } else {
                     const input = document.createElement('input');
                     input.type = 'text';
