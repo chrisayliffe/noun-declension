@@ -517,29 +517,47 @@
 
         // Parse Google Sheet data into game format
         function parseSheetData(rows) {
-            if (!rows || rows.length < 5) {
+            if (!rows || rows.length < 6) {
                 throw new Error('Sheet data is incomplete. Please check the sheet structure.');
             }
 
-            // Parse configuration (first 3 rows)
-            const title = rows[0]?.c[1]?.v || 'Icelandic Noun Declension Practice';
-            const subtitle = rows[1]?.c[1]?.v || 'Practice noun declensions';
-            
-            // Parse optional configuration from row 3 (CONFIG row)
-            const showPlural = rows[2]?.c[1]?.v?.toLowerCase() !== 'false'; // Default true
-            const visibleCases = (rows[2]?.c[3]?.v || 'Nf,Þf,Þgf,Ef').split(',').map(c => c.trim());
+            // Helper function to safely get cell value
+            const getCellValue = (row, colIndex) => {
+                return row?.c?.[colIndex]?.v || '';
+            };
 
-            // Parse noun data (starting from row 5, after headers in row 4)
+            // Parse configuration - Row 1 (index 0)
+            const titleRow = rows[0];
+            const title = getCellValue(titleRow, 1) || 'Icelandic Noun Declension Practice';
+            
+            // Parse configuration - Row 2 (index 1)
+            const subtitleRow = rows[1];
+            const subtitle = getCellValue(subtitleRow, 1) || 'Practice noun declensions';
+            
+            // Parse optional configuration - Row 3 (index 2)
+            const configRow = rows[2];
+            const showPluralValue = getCellValue(configRow, 1);
+            const showPlural = showPluralValue.toString().toLowerCase() !== 'false';
+            const visibleCasesValue = getCellValue(configRow, 3) || 'Nf,Þf,Þgf,Ef';
+            const visibleCases = visibleCasesValue.toString().split(',').map(c => c.trim()).filter(c => c);
+
+            // Row 4 (index 3) is empty
+            // Row 5 (index 4) is headers
+            // Data starts at Row 6 (index 5)
+            
             const nouns = {};
             for (let i = 5; i < rows.length; i++) {
                 const row = rows[i];
-                if (!row?.c || !row.c[0]?.v) continue;
+                if (!row?.c) continue;
 
-                const noun = row.c[0]?.v;
-                const article = row.c[1]?.v; // 'no_article' or 'with_article'
-                const number = row.c[2]?.v; // 'singular' or 'plural'
+                const noun = getCellValue(row, 0);
+                const article = getCellValue(row, 1);
+                const number = getCellValue(row, 2);
                 
+                // Skip if essential columns are missing
                 if (!noun || !article || !number) continue;
+                // Skip header rows
+                if (noun.toLowerCase() === 'noun') continue;
 
                 if (!nouns[noun]) {
                     nouns[noun] = {
@@ -549,21 +567,19 @@
                     };
                 }
 
-                // Columns: D=Nf (index 3), E=Þf (index 4), F=Þgf (index 5), G=Ef (index 6)
-                const nf = row.c[3]?.v;
-                const þf = row.c[4]?.v;
-                const þgf = row.c[5]?.v;
-                const ef = row.c[6]?.v;
+                // Get case values
+                const nf = getCellValue(row, 3);
+                const þf = getCellValue(row, 4);
+                const þgf = getCellValue(row, 5);
+                const ef = getCellValue(row, 6);
 
-                // Only add if values exist (not null/undefined)
-                if (nf || þf || þgf || ef) {
-                    nouns[noun][article][number] = {
-                        'Nf': nf || '',
-                        'Þf': þf || '',
-                        'Þgf': þgf || '',
-                        'Ef': ef || ''
-                    };
-                }
+                // Store the declensions
+                nouns[noun][article][number] = {
+                    'Nf': nf,
+                    'Þf': þf,
+                    'Þgf': þgf,
+                    'Ef': ef
+                };
             }
 
             return {
