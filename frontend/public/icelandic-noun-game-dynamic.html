@@ -621,12 +621,21 @@
             try {
                 const rows = await fetchGoogleSheetData(lessonName);
                 
-                // Debug: Log first few rows to console
-                console.log('Total rows:', rows.length);
-                console.log('First 6 rows:', rows.slice(0, 6).map((r, i) => ({
-                    index: i,
-                    cells: r.c?.map(c => c?.v)
-                })));
+                // Debug: Log ALL rows from API
+                console.log('=== RAW DATA FROM GOOGLE SHEETS API ===');
+                console.log('Total rows received:', rows.length);
+                rows.forEach((row, idx) => {
+                    if (idx < 10) { // Show first 10 rows
+                        const cells = [];
+                        if (row.c) {
+                            for (let i = 0; i < 7; i++) {
+                                cells.push(row.c[i]?.v || '(empty)');
+                            }
+                        }
+                        console.log(`API Row ${idx}:`, cells.join(' | '));
+                    }
+                });
+                console.log('=== END RAW DATA ===');
                 
                 const data = parseSheetData(rows);
                 
@@ -663,6 +672,7 @@
                 // Initialize game
                 init();
             } catch (error) {
+                console.error('Error loading game:', error);
                 document.getElementById('loadingMessage').classList.add('hidden');
                 document.getElementById('errorMessage').textContent = error.message;
                 document.getElementById('errorMessage').classList.remove('hidden');
