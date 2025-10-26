@@ -526,27 +526,39 @@
                 return row?.c?.[colIndex]?.v || '';
             };
 
-            // Parse configuration - Row 1 (index 0)
-            const titleRow = rows[0];
-            const title = getCellValue(titleRow, 1) || 'Icelandic Noun Declension Practice';
-            
-            // Parse configuration - Row 2 (index 1)
-            const subtitleRow = rows[1];
-            const subtitle = getCellValue(subtitleRow, 1) || 'Practice noun declensions';
-            
-            // Parse optional configuration - Row 3 (index 2)
-            const configRow = rows[2];
-            const showPluralValue = getCellValue(configRow, 1);
-            const showPlural = showPluralValue.toString().toLowerCase() !== 'false';
-            const visibleCasesValue = getCellValue(configRow, 3) || 'Nf,Þf,Þgf,Ef';
-            const visibleCases = visibleCasesValue.toString().split(',').map(c => c.trim()).filter(c => c);
+            // Find configuration rows by searching for keywords
+            let title = 'Icelandic Noun Declension Practice';
+            let subtitle = 'Practice noun declensions';
+            let showPlural = true;
+            let visibleCases = ['Nf', 'Þf', 'Þgf', 'Ef'];
+            let dataStartIndex = 5;
 
-            // Row 4 (index 3) is empty
-            // Row 5 (index 4) is headers
-            // Data starts at Row 6 (index 5)
-            
+            // Search for LESSON_TITLE, LESSON_SUBTITLE, SHOW_PLURAL in first 5 rows
+            for (let i = 0; i < Math.min(5, rows.length); i++) {
+                const row = rows[i];
+                const firstCell = getCellValue(row, 0).toString().toUpperCase();
+                
+                if (firstCell === 'LESSON_TITLE') {
+                    title = getCellValue(row, 1) || title;
+                } else if (firstCell === 'LESSON_SUBTITLE') {
+                    subtitle = getCellValue(row, 1) || subtitle;
+                } else if (firstCell === 'SHOW_PLURAL') {
+                    const val = getCellValue(row, 1).toString().toLowerCase();
+                    showPlural = val !== 'false';
+                    const casesVal = getCellValue(row, 3);
+                    if (casesVal) {
+                        visibleCases = casesVal.toString().split(',').map(c => c.trim()).filter(c => c);
+                    }
+                } else if (firstCell === 'NOUN') {
+                    // Found header row, data starts after this
+                    dataStartIndex = i + 1;
+                    break;
+                }
+            }
+
+            // Parse noun data
             const nouns = {};
-            for (let i = 5; i < rows.length; i++) {
+            for (let i = dataStartIndex; i < rows.length; i++) {
                 const row = rows[i];
                 if (!row?.c) continue;
 
