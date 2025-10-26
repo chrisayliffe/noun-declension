@@ -759,12 +759,16 @@
             container.innerHTML = '';
             tilesContainer.innerHTML = '';
 
-            // Collect all forms
+            // Collect all forms - only non-empty values and based on configuration
             const allForms = [];
             ['no_article', 'with_article'].forEach(article => {
-                ['singular', 'plural'].forEach(number => {
-                    ['Nf', 'Þf', 'Þgf', 'Ef'].forEach(caseKey => {
-                        allForms.push(noun[article][number][caseKey]);
+                const numbers = SHOW_PLURAL ? ['singular', 'plural'] : ['singular'];
+                numbers.forEach(number => {
+                    VISIBLE_CASES.forEach(caseKey => {
+                        const form = noun?.[article]?.[number]?.[caseKey];
+                        if (form && form.trim()) { // Only add non-empty forms
+                            allForms.push(form);
+                        }
                     });
                 });
             });
