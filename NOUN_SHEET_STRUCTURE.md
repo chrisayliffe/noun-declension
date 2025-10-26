@@ -11,11 +11,17 @@
 
 ### Row 1-3: Configuration
 
-| Column A | Column B |
-|----------|----------|
-| **LESSON_TITLE** | Lesson 1: Basic Nouns |
-| **LESSON_SUBTITLE** | Practice noun declensions |
-| **(empty)** | |
+| Column A | Column B | Column C | Column D |
+|----------|----------|----------|----------|
+| **LESSON_TITLE** | Lesson 1: Basic Nouns | | |
+| **LESSON_SUBTITLE** | Practice noun declensions | | |
+| **SHOW_PLURAL** | true | **VISIBLE_CASES** | Nf,Þf,Þgf,Ef |
+
+**Configuration Options:**
+- **SHOW_PLURAL** (Column B, Row 3): Set to `true` to show plural columns, `false` to hide them (default: `true`)
+- **VISIBLE_CASES** (Column D, Row 3): Comma-separated list of cases to show (default: `Nf,Þf,Þgf,Ef`)
+  - Example: `Nf,Þf` will show only Nominative and Accusative cases
+  - Example: `Nf,Þgf,Ef` will hide Accusative case
 
 ### Row 4: Empty
 
